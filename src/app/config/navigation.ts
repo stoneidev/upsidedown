@@ -120,6 +120,17 @@ export const navigationConfig: SideNavigationProps = {
       items: [
         {
           type: "section",
+          text: "Infrastructure",
+          items: [
+            {
+              type: "link",
+              text: "On Boarding",
+              href: "#/product-development/infrastructure/onboarding",
+            },
+          ],
+        },
+        {
+          type: "section",
           text: "Develop",
           items: [
             {
