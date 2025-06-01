@@ -2,7 +2,7 @@ import { SideNavigationProps } from "@cloudscape-design/components";
 
 export const navigationConfig: SideNavigationProps = {
   header: {
-    href: "#",
+    href: "/",
     text: "UpsideDown",
   },
   items: [
