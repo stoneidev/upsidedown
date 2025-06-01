@@ -7,11 +7,23 @@ const nextConfig = {
   ],
   webpack: (config) => {
     // CSS 모듈 설정
-    config.module.rules.push({
-      test: /\.css$/,
-      include: /node_modules\/@cloudscape-design\//,
-      use: ["style-loader", "css-loader"],
-    });
+    const rules = config.module.rules
+      .find((rule) => typeof rule.oneOf === "object")
+      ?.oneOf.filter((rule) => Array.isArray(rule.use));
+
+    if (rules) {
+      rules.forEach((rule) => {
+        const cssLoader = rule.use.find(({ loader }) =>
+          loader?.includes("css-loader")
+        );
+        if (cssLoader) {
+          cssLoader.options = {
+            ...cssLoader.options,
+            importLoaders: 1,
+          };
+        }
+      });
+    }
 
     return config;
   },
