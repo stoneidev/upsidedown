@@ -279,7 +279,7 @@ export default function InfrastructureOnboarding() {
   const updateInfrastructureConfig = (
     section: keyof InfrastructureConfig,
     field: string,
-    value: any
+    value: unknown
   ) => {
     setInfrastructureConfig((prev) => ({
       ...prev,
