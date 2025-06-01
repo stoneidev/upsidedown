@@ -9,72 +9,146 @@ import Button from "@cloudscape-design/components/button";
 import Input from "@cloudscape-design/components/input";
 import FormField from "@cloudscape-design/components/form-field";
 import Link from "@cloudscape-design/components/link";
+import Box from "@cloudscape-design/components/box";
+import Grid from "@cloudscape-design/components/grid";
+import TextContent from "@cloudscape-design/components/text-content";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
 
-  const handleLogin = () => {
-    // 로그인 처리 로직
-    router.push("/product-team/identify/business-goal-alignment");
+  const validateForm = () => {
+    let isValid = true;
+    setEmailError("");
+    setPasswordError("");
+
+    if (!email) {
+      setEmailError("이메일을 입력해주세요.");
+      isValid = false;
+    }
+    if (!password) {
+      setPasswordError("비밀번호를 입력해주세요.");
+      isValid = false;
+    }
+    return isValid;
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateForm()) {
+      // 로그인 처리 로직
+      router.push("/product-team/identify/business-goal-alignment");
+    }
   };
 
   return (
     <ContentLayout
-      defaultPadding
+      headerVariant="high-contrast"
+      maxContentWidth={400}
       header={
-        <Header
-          variant="h1"
-          info={<Link variant="info">Info</Link>}
-          description="UpsideDown에 로그인하세요"
-        >
-          로그인
-        </Header>
+        <SpaceBetween size="xs">
+          <Box textAlign="center" padding={{ top: "xl", bottom: "xs" }}>
+            <Box fontSize="display-l" fontWeight="bold">
+              UpsideDown
+            </Box>
+          </Box>
+          <Box textAlign="center" variant="p" color="text-body-secondary">
+            제품 개발 프로세스 관리 플랫폼
+          </Box>
+        </SpaceBetween>
       }
     >
-      <Container
-        header={
-          <Header variant="h2" description="계정 정보를 입력하세요">
-            로그인 정보
-          </Header>
-        }
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleLogin();
-          }}
-        >
-          <SpaceBetween size="l">
-            <FormField label="이메일">
-              <Input
-                type="email"
-                value={email}
-                onChange={({ detail }) => setEmail(detail.value)}
-                placeholder="email@example.com"
-              />
-            </FormField>
+      <Grid gridDefinition={[{ colspan: { default: 12 } }]}>
+        <Container>
+          <form onSubmit={handleLogin}>
+            <SpaceBetween size="xl">
+              <SpaceBetween size="m">
+                <Header variant="h1">로그인</Header>
 
-            <FormField label="비밀번호">
-              <Input
-                type="password"
-                value={password}
-                onChange={({ detail }) => setPassword(detail.value)}
-                placeholder="비밀번호를 입력하세요"
-              />
-            </FormField>
+                <FormField label="이메일" errorText={emailError} stretch>
+                  <Input
+                    type="email"
+                    value={email}
+                    onChange={({ detail }) => {
+                      setEmail(detail.value);
+                      setEmailError("");
+                    }}
+                    placeholder="email@example.com"
+                    autoFocus
+                  />
+                </FormField>
 
-            <SpaceBetween size="xs" direction="horizontal">
-              <Button variant="primary" onClick={handleLogin}>
-                로그인
-              </Button>
-              <Button onClick={() => router.push("/")}>돌아가기</Button>
+                <FormField label="비밀번호" errorText={passwordError} stretch>
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={({ detail }) => {
+                      setPassword(detail.value);
+                      setPasswordError("");
+                    }}
+                    placeholder="비밀번호를 입력하세요"
+                  />
+                </FormField>
+
+                <Box textAlign="right">
+                  <Link fontSize="body-s">비밀번호를 잊으셨나요?</Link>
+                </Box>
+              </SpaceBetween>
+
+              <SpaceBetween size="s">
+                <Button variant="primary" fullWidth formAction="submit">
+                  로그인
+                </Button>
+
+                <Box
+                  textAlign="center"
+                  fontSize="body-s"
+                  color="text-body-secondary"
+                >
+                  또는
+                </Box>
+
+                <Button fullWidth iconAlign="left">
+                  Google로 계속하기
+                </Button>
+              </SpaceBetween>
             </SpaceBetween>
+          </form>
+        </Container>
+
+        <Box textAlign="center" margin={{ top: "l" }}>
+          <TextContent>
+            <p>
+              <Box variant="span" fontSize="body-s" color="text-body-secondary">
+                아직 계정이 없으신가요?{" "}
+              </Box>
+              <Link fontSize="body-s" onFollow={() => router.push("/signup")}>
+                회원가입
+              </Link>
+            </p>
+          </TextContent>
+        </Box>
+      </Grid>
+
+      <Box margin={{ top: "xxl" }}>
+        <Box textAlign="center" fontSize="body-s" color="text-body-secondary">
+          <SpaceBetween size="xs" direction="horizontal" alignItems="center">
+            <Link fontSize="body-s" external>
+              이용약관
+            </Link>
+            <Box variant="span">•</Box>
+            <Link fontSize="body-s" external>
+              개인정보처리방침
+            </Link>
+            <Box variant="span">•</Box>
+            <Link fontSize="body-s">문의하기</Link>
           </SpaceBetween>
-        </form>
-      </Container>
+        </Box>
+      </Box>
     </ContentLayout>
   );
 }
