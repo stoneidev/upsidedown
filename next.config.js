@@ -3,33 +3,15 @@ const nextConfig = {
   transpilePackages: [
     "@cloudscape-design/components",
     "@cloudscape-design/global-styles",
-    "@cloudscape-design/component-toolkit",
+    "@cloudscape-design/component-toolkit"
   ],
-  webpack: (config) => {
-    // CSS 모듈 설정
-    const rules = config.module.rules
-      .find((rule) => typeof rule.oneOf === "object")
-      ?.oneOf.filter((rule) => Array.isArray(rule.use));
-
-    if (rules) {
-      rules.forEach((rule) => {
-        const cssLoader = rule.use.find(({ loader }) =>
-          loader?.includes("css-loader")
-        );
-        if (cssLoader) {
-          cssLoader.options = {
-            ...cssLoader.options,
-            importLoaders: 1,
-          };
-        }
-      });
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
     }
-
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ["style-loader", "css-loader"],
-    });
-
     return config;
   },
   async rewrites() {
