@@ -1,31 +1,36 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 import {
-  SplitPanelProps,
   HelpPanelProps,
   FlashbarProps,
+  SplitPanelProps,
 } from "@cloudscape-design/components";
+
+type FlashbarItem = NonNullable<FlashbarProps["items"]>[number];
 
 interface AppLayoutContextType {
   splitPanel: SplitPanelProps | null;
-  setSplitPanel: (panel: SplitPanelProps | null) => void;
+  setSplitPanel: (splitPanel: SplitPanelProps | null) => void;
   helpPanel: HelpPanelProps | null;
-  setHelpPanel: (panel: HelpPanelProps | null) => void;
-  notifications: FlashbarProps["items"] | null;
-  setNotifications: (items: FlashbarProps["items"] | null) => void;
+  setHelpPanel: (helpPanel: HelpPanelProps | null) => void;
+  notifications: FlashbarItem[] | null;
+  setNotifications: (notifications: FlashbarItem[] | null) => void;
+  splitPanelOpen: boolean;
+  setSplitPanelOpen: (open: boolean) => void;
 }
 
 const AppLayoutContext = createContext<AppLayoutContextType | undefined>(
   undefined
 );
 
-export function AppLayoutProvider({ children }: { children: React.ReactNode }) {
+export function AppLayoutProvider({ children }: { children: ReactNode }) {
   const [splitPanel, setSplitPanel] = useState<SplitPanelProps | null>(null);
   const [helpPanel, setHelpPanel] = useState<HelpPanelProps | null>(null);
-  const [notifications, setNotifications] = useState<
-    FlashbarProps["items"] | null
-  >(null);
+  const [notifications, setNotifications] = useState<FlashbarItem[] | null>(
+    null
+  );
+  const [splitPanelOpen, setSplitPanelOpen] = useState(false);
 
   return (
     <AppLayoutContext.Provider
@@ -36,6 +41,8 @@ export function AppLayoutProvider({ children }: { children: React.ReactNode }) {
         setHelpPanel,
         notifications,
         setNotifications,
+        splitPanelOpen,
+        setSplitPanelOpen,
       }}
     >
       {children}

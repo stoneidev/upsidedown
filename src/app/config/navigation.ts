@@ -8,6 +8,17 @@ export const navigationConfig: SideNavigationProps = {
   items: [
     {
       type: "section-group",
+      title: "Engagements",
+      items: [
+        {
+          type: "link",
+          text: "Engagements List",
+          href: "#/engagements",
+        },
+      ],
+    },
+    {
+      type: "section-group",
       title: "Product Team",
       items: [
         {

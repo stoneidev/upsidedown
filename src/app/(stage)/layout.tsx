@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   AppLayout,
   BreadcrumbGroup,
@@ -22,9 +22,31 @@ import { useRouter, usePathname } from "next/navigation";
 const LOCALE = "en";
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
-  const { splitPanel, helpPanel, notifications } = useAppLayout();
+  const { helpPanel, notifications, splitPanel, splitPanelOpen } =
+    useAppLayout();
   const router = useRouter();
   const pathname = usePathname();
+
+  // 현재 경로에 따른 Breadcrumb 생성
+  const breadcrumbs = useMemo(() => {
+    const paths = pathname.split("/").filter(Boolean);
+    const items = [{ text: "Home", href: "#" }];
+    let currentPath = "";
+    paths.forEach((path) => {
+      currentPath += `/${path}`;
+      const text = path
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
+      items.push({
+        text,
+        href: `#${currentPath}`,
+      });
+    });
+
+    return items;
+  }, [pathname]);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -47,22 +69,16 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
 
   return (
     <AppLayout
-      breadcrumbs={
-        <BreadcrumbGroup
-          items={[
-            { text: "Home", href: "#" },
-            { text: "Service", href: "#" },
-          ]}
-        />
-      }
+      breadcrumbs={<BreadcrumbGroup items={breadcrumbs} />}
       navigationOpen={true}
       navigation={<Navigation />}
       notifications={
         notifications ? <Flashbar items={notifications} /> : undefined
       }
-      toolsOpen={true}
       tools={helpPanel ? <HelpPanel {...helpPanel} /> : undefined}
+      toolsHide={false}
       content={children}
+      splitPanelOpen={splitPanelOpen}
       splitPanel={splitPanel ? <SplitPanel {...splitPanel} /> : undefined}
     />
   );
