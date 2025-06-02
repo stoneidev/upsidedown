@@ -13,28 +13,18 @@ import {
   TextFilter,
   CollectionPreferences,
   ProgressBar,
+  ColumnLayout,
+  StatusIndicator,
+  Grid,
+  Badge,
 } from "@cloudscape-design/components";
 import { useAppLayout } from "@/app/context/AppLayoutContext";
 import dynamic from "next/dynamic";
-
-// 인게이지먼트 유형 정의 (BLA, P2P로 변경)
-enum EngagementType {
-  BLA = "BLA",
-  P2P = "P2P",
-  // 필요시 다른 유형 추가 가능
-}
-
-// 인게이지먼트 데이터 타입 정의
-interface Engagement {
-  id: string;
-  companyName: string;
-  engagementName: string;
-  sfdcId: string;
-  engagementType: EngagementType;
-  startDate: string;
-  endDate: string;
-  progress: number; // 진행도(%)
-}
+import {
+  SAMPLE_ENGAGEMENTS,
+  Engagement,
+  EngagementType,
+} from "@/app/data/engagements";
 
 // 이벤트 타입 정의
 interface FilteringChangeDetail {
@@ -53,80 +43,6 @@ interface PageChangeEvent {
   detail: PageChangeDetail;
 }
 
-// 샘플 데이터 (engagementType을 BLA, P2P로 변경)
-const SAMPLE_ENGAGEMENTS: Engagement[] = [
-  {
-    id: "eng-001",
-    companyName: "삼성전자",
-    engagementName: "클라우드 마이그레이션",
-    sfdcId: "SFDC-12345",
-    engagementType: EngagementType.BLA, // 예시: BLA로 변경
-    startDate: "2023-01-15",
-    endDate: "2023-06-30",
-    progress: 80,
-  },
-  {
-    id: "eng-002",
-    companyName: "LG CNS",
-    engagementName: "데이터 분석 플랫폼 구축",
-    sfdcId: "SFDC-23456",
-    engagementType: EngagementType.P2P, // 예시: P2P로 변경
-    startDate: "2023-02-01",
-    endDate: "2023-08-15",
-    progress: 60,
-  },
-  {
-    id: "eng-003",
-    companyName: "현대자동차",
-    engagementName: "AWS 교육 프로그램",
-    sfdcId: "SFDC-34567",
-    engagementType: EngagementType.BLA, // 예시: BLA로 변경
-    startDate: "2023-03-10",
-    endDate: "2023-04-10",
-    progress: 100,
-  },
-  {
-    id: "eng-004",
-    companyName: "SK 텔레콤",
-    engagementName: "시스템 유지보수",
-    sfdcId: "SFDC-45678",
-    engagementType: EngagementType.P2P, // 예시: P2P로 변경
-    startDate: "2023-01-01",
-    endDate: "2023-12-31",
-    progress: 40,
-  },
-  {
-    id: "eng-005",
-    companyName: "롯데정보통신",
-    engagementName: "클라우드 보안 컨설팅",
-    sfdcId: "SFDC-56789",
-    engagementType: EngagementType.BLA, // 예시: BLA로 변경
-    startDate: "2023-04-01",
-    endDate: "2023-07-31",
-    progress: 90,
-  },
-  {
-    id: "eng-006",
-    companyName: "네이버",
-    engagementName: "인프라 최적화",
-    sfdcId: "SFDC-67890",
-    engagementType: EngagementType.P2P, // 예시: P2P로 변경
-    startDate: "2023-05-15",
-    endDate: "2023-08-15",
-    progress: 30,
-  },
-  {
-    id: "eng-007",
-    companyName: "카카오",
-    engagementName: "마이크로서비스 아키텍처 구현",
-    sfdcId: "SFDC-78901",
-    engagementType: EngagementType.BLA, // 예시: BLA로 변경
-    startDate: "2023-06-01",
-    endDate: "2023-12-31",
-    progress: 10,
-  },
-];
-
 // ProgressBar를 클라이언트 사이드에서만 렌더링하도록 설정
 const ClientProgressBar = dynamic(() => Promise.resolve(ProgressBar), {
   ssr: false,
@@ -136,6 +52,7 @@ const ClientProgressBar = dynamic(() => Promise.resolve(ProgressBar), {
 const DEFAULT_PREFERENCES = {
   pageSize: 10,
   visibleContent: [
+    "id",
     "companyName",
     "engagementName",
     "sfdcId",
@@ -144,6 +61,7 @@ const DEFAULT_PREFERENCES = {
     "actions",
   ],
 };
+
 export default function EngagementsPage() {
   const { setHelpPanel, setSplitPanel, setSplitPanelOpen } = useAppLayout();
   const [filteredItems, setFilteredItems] =
@@ -193,33 +111,135 @@ export default function EngagementsPage() {
   // 선택된 행이 변경될 때 SplitPanel 업데이트
   useEffect(() => {
     if (selectedRow) {
+      // 진행 상태에 따른 상태 표시
+      const getProgressStatus = (progress: number) => {
+        if (progress < 30) return "pending";
+        if (progress < 70) return "in-progress";
+        if (progress < 100) return "success";
+        return "success";
+      };
+
+      // 프로젝트 타입에 따른 뱃지 색상
+      const getProjectTypeBadge = (type: EngagementType) => {
+        if (type === EngagementType.BLA) {
+          return <Badge color="blue">{type}</Badge>;
+        } else {
+          return <Badge color="green">{type}</Badge>;
+        }
+      };
+
+      // 날짜 포맷 함수
+      const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      };
+
+      // 프로젝트 기간 계산
+      const calculateDuration = (startDate: string, endDate: string) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const diffTime = Math.abs(end.getTime() - start.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+      };
+
       setSplitPanel({
-        header: "Engagement Details",
+        header: `Engagement Details - ${selectedRow.engagementName}`,
+        i18nStrings: {
+          preferencesTitle: "Split panel preferences",
+          preferencesPositionLabel: "Split panel position",
+          preferencesPositionDescription: "Choose the split panel position.",
+          preferencesPositionSide: "Side",
+          preferencesPositionBottom: "Bottom",
+          preferencesConfirm: "Confirm",
+          preferencesCancel: "Cancel",
+          closeButtonAriaLabel: "Close panel",
+          resizeHandleAriaLabel: "Resize split panel",
+        },
         children: (
-          <SpaceBetween size="m">
-            <Box>
-              <b>Company Name:</b> {selectedRow.companyName}
-            </Box>
-            <Box>
-              <b>Project Name:</b> {selectedRow.engagementName}
-            </Box>
-            <Box>
-              <b>SFDC ID:</b> {selectedRow.sfdcId}
-            </Box>
-            <Box>
-              <b>Project Type:</b> {selectedRow.engagementType}
-            </Box>
-            <Box>
-              <b>Start Date:</b> {selectedRow.startDate}
-            </Box>
-            <Box>
-              <b>End Date:</b> {selectedRow.endDate}
-            </Box>
-            <Box>
-              <b>Progress:</b>{" "}
-              <ClientProgressBar value={selectedRow.progress} />
-            </Box>
-          </SpaceBetween>
+          <Container>
+            <SpaceBetween size="l">
+              {/* 요약 정보 */}
+              <Box variant="h4">
+                {selectedRow.companyName} - {selectedRow.engagementName}
+              </Box>
+
+              <Grid gridDefinition={[{ colspan: 12 }]}>
+                <StatusIndicator type={getProgressStatus(selectedRow.progress)}>
+                  진행 상태: {selectedRow.progress}% 완료
+                </StatusIndicator>
+              </Grid>
+
+              {/* 프로젝트 정보 */}
+              <ColumnLayout columns={2} variant="text-grid">
+                <SpaceBetween size="m">
+                  <div>
+                    <Box variant="awsui-key-label">Engagement ID</Box>
+                    <Box>{selectedRow.id}</Box>
+                  </div>
+                  <div>
+                    <Box variant="awsui-key-label">SFDC ID</Box>
+                    <Box>{selectedRow.sfdcId}</Box>
+                  </div>
+                  <div>
+                    <Box variant="awsui-key-label">프로젝트 유형</Box>
+                    <Box>{getProjectTypeBadge(selectedRow.engagementType)}</Box>
+                  </div>
+                </SpaceBetween>
+
+                <SpaceBetween size="m">
+                  <div>
+                    <Box variant="awsui-key-label">시작일</Box>
+                    <Box>{formatDate(selectedRow.startDate)}</Box>
+                  </div>
+                  <div>
+                    <Box variant="awsui-key-label">종료일</Box>
+                    <Box>{formatDate(selectedRow.endDate)}</Box>
+                  </div>
+                  <div>
+                    <Box variant="awsui-key-label">총 프로젝트 기간</Box>
+                    <Box>
+                      {calculateDuration(
+                        selectedRow.startDate,
+                        selectedRow.endDate
+                      )}
+                      일
+                    </Box>
+                  </div>
+                </SpaceBetween>
+              </ColumnLayout>
+
+              {/* 진행률 표시 */}
+              <Box variant="h5">진행 상황</Box>
+              <Box padding={{ bottom: "s" }}>
+                <ClientProgressBar
+                  value={selectedRow.progress}
+                  label={`${selectedRow.progress}%`}
+                  description={
+                    selectedRow.progress === 100 ? "완료됨" : "진행 중"
+                  }
+                  status={
+                    selectedRow.progress < 30
+                      ? "in-progress"
+                      : selectedRow.progress < 70
+                      ? "in-progress"
+                      : "success"
+                  }
+                />
+              </Box>
+
+              {/* 액션 버튼 */}
+              <SpaceBetween direction="horizontal" size="xs">
+                <Button variant="primary">상세 보기</Button>
+                <Button variant="normal">편집</Button>
+                <Button variant="link">보고서 다운로드</Button>
+              </SpaceBetween>
+            </SpaceBetween>
+          </Container>
         ),
       });
       setSplitPanelOpen(true); // SplitPanel 열기
@@ -300,6 +320,12 @@ export default function EngagementsPage() {
 
   // 테이블 컬럼 정의
   const columnDefinitions = [
+    {
+      id: "id",
+      header: "Engagement ID",
+      cell: (item: Engagement) => item.id,
+      sortingField: "id",
+    },
     {
       id: "companyName",
       header: "Company Name",
@@ -436,6 +462,7 @@ export default function EngagementsPage() {
                       {
                         label: "Engagement Attributes",
                         options: [
+                          { id: "id", label: "Engagement ID" },
                           { id: "companyName", label: "Company Name" },
                           { id: "engagementName", label: "Project Name" },
                           { id: "sfdcId", label: "SFDC ID" },
