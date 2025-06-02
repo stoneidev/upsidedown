@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import {
   Box,
   Button,
@@ -61,6 +61,15 @@ const DEFAULT_PREFERENCES = {
     "actions",
   ],
 };
+
+// URL 쿼리 파라미터를 사용하는 컴포넌트는 별도의 파일로 분리
+// 클라이언트 컴포넌트로 lazy 로드
+const EngagementParamHandler = dynamic(
+  () => import("@/app/(stage)/engagements/EngagementParamHandler"),
+  {
+    ssr: false,
+  }
+);
 
 export default function EngagementsPage() {
   const { setHelpPanel, setSplitPanel, setSplitPanelOpen } = useAppLayout();
@@ -397,6 +406,9 @@ export default function EngagementsPage() {
         </Header>
       }
     >
+      <Suspense fallback={null}>
+        <EngagementParamHandler onSelectEngagement={setSelectedRow} />
+      </Suspense>
       <Box>
         <Container>
           {mounted && (

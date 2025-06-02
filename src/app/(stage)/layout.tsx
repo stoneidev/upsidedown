@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, Suspense } from "react";
 import {
   AppLayout,
   BreadcrumbGroup,
@@ -35,12 +35,63 @@ const getIncompleteEngagements = () => {
   }));
 };
 
+// useSearchParams를 사용하는 부분을 별도의 클라이언트 컴포넌트로 분리
+function TopNavigationWithEngagements() {
+  const router = useRouter();
+  const incompleteEngagements = getIncompleteEngagements();
+
+  return (
+    <TopNavigation
+      identity={{
+        href: "#",
+        title: "UpsideDown",
+        logo: {
+          src: "https://d1.awsstatic.com/logos/aws-logo-lockups/poweredbyaws/PB_AWS_logo_RGB_stacked_REV_SQ.91cd4af40773cbfbd15577a3c2b8a346fe3e8fa2.png",
+          alt: "UpsideDown",
+        },
+      }}
+      utilities={[
+        {
+          type: "menu-dropdown",
+          text: "미완료 Engagement",
+          iconName: "notification",
+          description: `${incompleteEngagements.length}개의 진행 중인 Engagement`,
+          onItemClick: () => {
+            /* 필요한 경우 구현 */
+          },
+          items: incompleteEngagements.map((option) => ({
+            id: option.value,
+            text: option.label,
+            description: option.description,
+            onItemClick: () => {
+              router.push(`/engagements?engagement=${option.value}`);
+            },
+          })),
+        },
+        {
+          type: "menu-dropdown",
+          text: "사용자",
+          description: "admin@example.com",
+          iconName: "user-profile",
+          items: [
+            { id: "profile", text: "프로필" },
+            { id: "preferences", text: "환경설정" },
+            { id: "security", text: "보안" },
+            { id: "signout", text: "로그아웃" },
+          ],
+        },
+      ]}
+    />
+  );
+}
+
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { helpPanel, notifications, splitPanel, splitPanelOpen } =
     useAppLayout();
   const router = useRouter();
   const pathname = usePathname();
-  // selectedEngagement 상태는 사용되지 않으므로 제거
+
+  // 현재 경로에 따른 Breadcrumb 생성
   const breadcrumbs = useMemo(() => {
     const paths = pathname.split("/").filter(Boolean);
     const items = [{ text: "Home", href: "#" }];
@@ -81,51 +132,11 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
     };
   }, [router, pathname]);
 
-  const incompleteEngagements = getIncompleteEngagements();
-
   return (
     <>
-      <TopNavigation
-        identity={{
-          href: "#",
-          title: "UpsideDown",
-          logo: {
-            src: "https://d1.awsstatic.com/logos/aws-logo-lockups/poweredbyaws/PB_AWS_logo_RGB_stacked_REV_SQ.91cd4af40773cbfbd15577a3c2b8a346fe3e8fa2.png",
-            alt: "UpsideDown",
-          },
-        }}
-        utilities={[
-          {
-            type: "menu-dropdown",
-            text: "미완료 Engagement",
-            iconName: "notification",
-            description: `${incompleteEngagements.length}개의 진행 중인 Engagement`,
-            onItemClick: () => {
-              /* 필요한 경우 구현 */
-            },
-            items: incompleteEngagements.map((option) => ({
-              id: option.value,
-              text: option.label,
-              description: option.description,
-              onItemClick: () => {
-                router.push(`/engagements?engagement=${option.value}`);
-              },
-            })),
-          },
-          {
-            type: "menu-dropdown",
-            text: "사용자",
-            description: "admin@example.com",
-            iconName: "user-profile",
-            items: [
-              { id: "profile", text: "프로필" },
-              { id: "preferences", text: "환경설정" },
-              { id: "security", text: "보안" },
-              { id: "signout", text: "로그아웃" },
-            ],
-          },
-        ]}
-      />
+      <Suspense fallback={<div>로딩 중...</div>}>
+        <TopNavigationWithEngagements />
+      </Suspense>
       <AppLayout
         breadcrumbs={<BreadcrumbGroup items={breadcrumbs} />}
         navigationOpen={true}
