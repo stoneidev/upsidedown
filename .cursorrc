@@ -1,0 +1,26 @@
+# Cursor Configuration
+
+# Code Style Rules
+[*.{ts,tsx}]
+# All page content must be in English
+content_language = "en"
+
+# File Naming Rules
+[src/app/(stage)/**/page.tsx]
+# Page content must be in English
+content_language = "en"
+
+# Component Rules
+[src/app/components/**/*.{ts,tsx}]
+# Component content must be in English
+content_language = "en"
+
+# Documentation Rules
+[*.md]
+# Documentation must be in English
+content_language = "en"
+
+# Comments Rules
+[*.{ts,tsx,js,jsx}]
+# Code comments must be in English
+comment_language = "en" 

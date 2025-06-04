@@ -29,11 +29,11 @@ interface Activity {
 }
 
 const statusOptions = [
-  { value: "value-add", label: "가치 추가", color: "green" as const },
-  { value: "non-value-add", label: "가치 미추가", color: "red" as const },
+  { value: "value-add", label: "Value Add", color: "green" as const },
+  { value: "non-value-add", label: "Non-Value Add", color: "red" as const },
   {
     value: "necessary-non-value-add",
-    label: "필수 가치 미추가",
+    label: "Necessary Non-Value Add",
     color: "blue" as const,
   },
 ];
@@ -95,68 +95,70 @@ export default function ValueStreamIdentify() {
     (reviewing: boolean) => {
       if (reviewing && streamName && activities.some((a) => a.name)) {
         setSplitPanel({
-          header: "AI 검토 의견",
+          header: "AI Review Opinion",
           children: (
             <SpaceBetween size="m">
-              <Alert type="info" header="가치 흐름 분석 완료">
-                작성하신 가치 흐름을 분석했습니다.
+              <Alert type="info" header="Value Stream Analysis Completed">
+                You have analyzed the value stream.
               </Alert>
 
-              <Header variant="h3">가치 흐름 분석</Header>
+              <Header variant="h3">Value Stream Analysis</Header>
               <SpaceBetween size="xs">
                 <StatusIndicator type="success">
-                  총 {activities.length}개 활동 정의됨
+                  Total {activities.length} activities defined
                 </StatusIndicator>
                 <StatusIndicator type="info">
-                  가치 추가 활동:{" "}
-                  {activities.filter((a) => a.status === "value-add").length}개
+                  Value Add activities:{" "}
+                  {activities.filter((a) => a.status === "value-add").length}
                 </StatusIndicator>
                 <StatusIndicator type="warning">
-                  필수 가치 미추가 활동:{" "}
+                  Necessary Non-Value Add activities:{" "}
                   {
                     activities.filter(
                       (a) => a.status === "necessary-non-value-add"
                     ).length
                   }
-                  개
+                  units
                 </StatusIndicator>
                 <StatusIndicator type="error">
-                  가치 미추가 활동:{" "}
+                  Non-Value Add activities:{" "}
                   {
                     activities.filter((a) => a.status === "non-value-add")
                       .length
                   }
-                  개
+                  units
                 </StatusIndicator>
               </SpaceBetween>
 
-              <Header variant="h3">개선 제안</Header>
+              <Header variant="h3">Improvement Suggestions</Header>
               <SpaceBetween size="xs">
-                <div>• 가치 미추가 활동 최소화 또는 제거 검토</div>
-                <div>• 리드 타임이 긴 활동에 대한 최적화 방안 검토</div>
-                <div>• 주요 통증점에 대한 개선 아이디어 도출</div>
+                <div>
+                  • Review minimizing or removing Non-Value Add activities
+                </div>
+                <div>• Review optimizing activities with long lead time</div>
+                <div>• Generate improvement ideas for key pain points</div>
               </SpaceBetween>
             </SpaceBetween>
           ),
         });
       } else {
         setSplitPanel({
-          header: "가치 흐름 작성 가이드",
+          header: "Value Stream Writing Guide",
           children: (
             <SpaceBetween size="m">
-              <Header variant="h3">효과적인 가치 흐름 매핑</Header>
+              <Header variant="h3">Effective Value Stream Mapping</Header>
               <div>
-                가치 흐름 매핑은 제품이나 서비스가 고객에게 전달되는 전체 과정을
-                시각화하는 도구입니다.
+                Value stream mapping is a tool to visualize the entire process
+                through which a product or service is delivered to customers.
               </div>
-              <Header variant="h3">작성 팁</Header>
+              <Header variant="h3">Writing Tips</Header>
               <div>
-                • 현재 상태(As-Is)를 정확히 기록하세요
+                • Record the current state (As-Is) accurately
                 <br />
-                • 각 활동의 리드 타임을 측정하세요
+                • Measure lead time for each activity
                 <br />
-                • 가치 추가 vs 가치 미추가 활동을 구분하세요
-                <br />• 고객 관점에서 가치를 정의하세요
+                • Distinguish between Value Add and Non-Value Add activities
+                <br />• Define value from customer perspective
               </div>
             </SpaceBetween>
           ),
@@ -171,23 +173,23 @@ export default function ValueStreamIdentify() {
     updateSplitPanel(isReviewing);
 
     setHelpPanel({
-      header: "가치 흐름 식별 도움말",
+      header: "Value Stream Identification Help",
       children: (
         <SpaceBetween size="m">
           <div>
-            가치 흐름을 식별하고 각 활동의 가치 기여도를 평가하여 프로세스
-            개선의 기회를 찾으세요.
+            Identify the value stream and evaluate the value contribution of
+            each activity to improve the process.
           </div>
-          <Header variant="h3">주요 용어</Header>
+          <Header variant="h3">Key Terms</Header>
           <div>
-            • 트리거: 가치 흐름의 시작점
+            • Trigger: Starting point of the value stream
             <br />
-            • 활동: 프로세스의 각 단계
+            • Activity: Each step in the process
             <br />
-            • 리드 타임: 각 활동에 소요되는 시간
+            • Lead Time: Time required for each activity
             <br />
-            • 가치 추가: 고객이 기꺼이 비용을 지불할 활동
-            <br />• 통증점: 프로세스의 문제점이나 장애물
+            • Value Add: Activity that customers willingly pay for
+            <br />• Pain Point: Problem or obstacle in the process
           </div>
         </SpaceBetween>
       ),
@@ -210,20 +212,20 @@ export default function ValueStreamIdentify() {
     const newErrors: Record<string, string> = {};
 
     if (!streamName.trim()) {
-      newErrors.streamName = "가치 흐름 이름을 입력해주세요.";
+      newErrors.streamName = "Enter value stream name.";
     }
 
     if (!trigger.trim()) {
-      newErrors.trigger = "트리거를 입력해주세요.";
+      newErrors.trigger = "Enter trigger.";
     }
 
     if (!value.trim()) {
-      newErrors.value = "가치를 입력해주세요.";
+      newErrors.value = "Enter value.";
     }
 
     const hasEmptyActivity = activities.some((a) => !a.name.trim());
     if (hasEmptyActivity) {
-      newErrors.activities = "모든 활동에 이름을 입력해주세요.";
+      newErrors.activities = "Enter name for all activities.";
     }
 
     setErrors(newErrors);
@@ -243,9 +245,9 @@ export default function ValueStreamIdentify() {
       header={
         <Header
           variant="h1"
-          description="제품 또는 서비스 제공 과정의 가치 흐름을 식별하고 분석합니다"
+          description="Identify and analyze the value stream of product or service delivery process"
         >
-          가치 흐름 식별
+          Value Stream Identification
         </Header>
       }
     >
@@ -258,10 +260,10 @@ export default function ValueStreamIdentify() {
               setShowReview(false);
               setIsReviewing(false);
             }}
-            header="검토 완료"
+            header="Review Complete"
           >
-            가치 흐름이 정의되었습니다. 필요시 편집하거나 다음 단계로 진행할 수
-            있습니다.
+            Value stream has been defined. You can edit if needed or proceed to
+            the next step.
           </Alert>
         )}
 
@@ -269,15 +271,15 @@ export default function ValueStreamIdentify() {
           header={
             <Header
               variant="h2"
-              description="가치 흐름의 기본 정보를 입력하세요"
+              description="Enter basic information about the value stream"
             >
-              기본 정보
+              Basic Information
             </Header>
           }
         >
           <SpaceBetween size="l">
             <FormField
-              label="가치 흐름 이름"
+              label="Value Stream Name"
               errorText={errors.streamName}
               stretch
             >
@@ -288,11 +290,11 @@ export default function ValueStreamIdentify() {
                   setErrors({ ...errors, streamName: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 신규 고객 온보딩 프로세스"
+                placeholder="e.g., New Customer Onboarding Process"
               />
             </FormField>
 
-            <FormField label="트리거" errorText={errors.trigger} stretch>
+            <FormField label="Trigger" errorText={errors.trigger} stretch>
               <Input
                 value={trigger}
                 onChange={({ detail }) => {
@@ -300,11 +302,11 @@ export default function ValueStreamIdentify() {
                   setErrors({ ...errors, trigger: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 회원가입 버튼 클릭"
+                placeholder="e.g., Sign Up Button Click"
               />
             </FormField>
 
-            <FormField label="가치" errorText={errors.value} stretch>
+            <FormField label="Value" errorText={errors.value} stretch>
               <Textarea
                 value={value}
                 onChange={({ detail }) => {
@@ -312,7 +314,7 @@ export default function ValueStreamIdentify() {
                   setErrors({ ...errors, value: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 신규 사용자가 제품의 핵심 기능을 경험하고 지속적으로 사용하게 함"
+                placeholder="e.g., Enable new users to experience core product features and continue using the product"
                 rows={3}
               />
             </FormField>
@@ -323,19 +325,19 @@ export default function ValueStreamIdentify() {
           header={
             <Header
               variant="h2"
-              description="가치 흐름 내 활동을 정의하고 분석하세요"
+              description="Define and analyze activities within the value stream"
               actions={
                 <Button iconName="add-plus" onClick={addActivity}>
-                  활동 추가
+                  Add Activity
                 </Button>
               }
             >
-              활동
+              Activities
             </Header>
           }
         >
           {errors.activities && (
-            <Alert type="error" header="오류">
+            <Alert type="error" header="Error">
               {errors.activities}
             </Alert>
           )}
@@ -345,7 +347,7 @@ export default function ValueStreamIdentify() {
               header: (item) => (
                 <SpaceBetween size="xs" direction="horizontal">
                   <Icon name="arrow-right" />
-                  <div>{item.name || `활동 ${item.id}`}</div>
+                  <div>{item.name || `Activity ${item.id}`}</div>
                   <Badge
                     color={
                       statusOptions.find((opt) => opt.value === item.status)
@@ -362,42 +364,42 @@ export default function ValueStreamIdentify() {
               sections: [
                 {
                   id: "description",
-                  header: "상세 정보",
+                  header: "Detailed Information",
                   content: (item) => (
                     <SpaceBetween size="l">
-                      <FormField label="활동명">
+                      <FormField label="Activity Name">
                         <Input
                           value={item.name}
                           onChange={({ detail }) =>
                             updateActivity(item.id, "name", detail.value)
                           }
-                          placeholder="활동명 입력"
+                          placeholder="Enter activity name"
                         />
                       </FormField>
 
-                      <FormField label="설명">
+                      <FormField label="Description">
                         <Textarea
                           value={item.description}
                           onChange={({ detail }) =>
                             updateActivity(item.id, "description", detail.value)
                           }
-                          placeholder="활동에 대한 설명"
+                          placeholder="Description of the activity"
                           rows={2}
                         />
                       </FormField>
 
                       <ColumnLayout columns={2}>
-                        <FormField label="리드 타임">
+                        <FormField label="Lead Time">
                           <Input
                             value={item.leadTime}
                             onChange={({ detail }) =>
                               updateActivity(item.id, "leadTime", detail.value)
                             }
-                            placeholder="예: 2시간, 3일"
+                            placeholder="e.g., 2 hours, 3 days"
                           />
                         </FormField>
 
-                        <FormField label="상태">
+                        <FormField label="Status">
                           <SpaceBetween size="xs" direction="horizontal">
                             {statusOptions.map((option) => (
                               <Button
@@ -422,13 +424,13 @@ export default function ValueStreamIdentify() {
                         </FormField>
                       </ColumnLayout>
 
-                      <FormField label="통증점">
+                      <FormField label="Pain Point">
                         <Textarea
                           value={item.painPoint}
                           onChange={({ detail }) =>
                             updateActivity(item.id, "painPoint", detail.value)
                           }
-                          placeholder="이 활동의 문제점이나 장애물"
+                          placeholder="Problems or obstacles in this activity"
                           rows={2}
                         />
                       </FormField>
@@ -439,7 +441,7 @@ export default function ValueStreamIdentify() {
                         disabled={activities.length === 1}
                         onClick={() => removeActivity(item.id)}
                       >
-                        활동 제거
+                        Remove Activity
                       </Button>
                     </SpaceBetween>
                   ),
@@ -448,8 +450,8 @@ export default function ValueStreamIdentify() {
             }}
             cardsPerRow={[{ cards: 1 }, { minWidth: 500, cards: 2 }]}
             items={activities}
-            loadingText="로딩 중"
-            empty="활동이 없습니다"
+            loadingText="Loading"
+            empty="No activities"
           />
 
           <div
@@ -483,7 +485,7 @@ export default function ValueStreamIdentify() {
                   }}
                 />
 
-                {/* 화살표 */}
+                {/* Arrow */}
                 {activities.length > 1 &&
                   activities.map((_, index) => {
                     if (index === activities.length - 1) return null;
@@ -510,7 +512,7 @@ export default function ValueStreamIdentify() {
                   })}
 
                 {activities.map((activity, index) => {
-                  // 활동명의 이니셜 또는 첫 글자 추출
+                  // Extract initial from activity name or first letter of activity
                   const initial = activity.name
                     ? activity.name.charAt(0).toUpperCase()
                     : (index + 1).toString();
@@ -570,7 +572,7 @@ export default function ValueStreamIdentify() {
                           ? activity.name.length > 20
                             ? `${activity.name.substring(0, 17)}...`
                             : activity.name
-                          : `활동 ${index + 1}`}
+                          : `Activity ${index + 1}`}
                       </div>
                       {activity.leadTime && (
                         <div
@@ -593,10 +595,10 @@ export default function ValueStreamIdentify() {
 
         <SpaceBetween direction="horizontal" size="xs">
           <Button onClick={handleReview} iconAlign="right" iconName="search">
-            검토
+            Review
           </Button>
           <Button variant="primary" iconAlign="right" iconName="check">
-            저장
+            Save
           </Button>
         </SpaceBetween>
       </SpaceBetween>
