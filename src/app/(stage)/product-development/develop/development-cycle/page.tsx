@@ -12,7 +12,7 @@ import { splitPanelConfig } from "@/app/config/splitPanel";
 import { helpPanelConfig } from "@/app/config/helpPanel";
 
 export default function DevelopmentCycle() {
-  const { setSplitPanel, setHelpPanel } = useAppLayout();
+  const { setSplitPanel, setHelpPanel, setSplitPanelOpen } = useAppLayout();
 
   useEffect(() => {
     setSplitPanel({
@@ -20,6 +20,8 @@ export default function DevelopmentCycle() {
       header: "Development Cycle Details",
       children: "This is the content for Development Cycle",
     });
+    setSplitPanelOpen(true);
+
 
     setHelpPanel({
       ...helpPanelConfig,
@@ -30,8 +32,9 @@ export default function DevelopmentCycle() {
     return () => {
       setSplitPanel(null);
       setHelpPanel(null);
+      setSplitPanelOpen(false);
     };
-  }, [setSplitPanel, setHelpPanel]);
+  }, [setSplitPanel, setHelpPanel, setSplitPanelOpen]);
 
   return (
     <ContentLayout

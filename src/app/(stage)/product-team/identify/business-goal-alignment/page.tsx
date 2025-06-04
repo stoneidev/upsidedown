@@ -26,7 +26,7 @@ interface KeyResult {
 }
 
 export default function BusinessGoalAlignment() {
-  const { setSplitPanel, setHelpPanel } = useAppLayout();
+  const { setSplitPanel, setHelpPanel, setSplitPanelOpen } = useAppLayout();
   const router = useRouter();
 
   const [customer, setCustomer] = useState("");
@@ -150,6 +150,7 @@ export default function BusinessGoalAlignment() {
   );
 
   useEffect(() => {
+    setSplitPanelOpen(false);
     updateSplitPanel(isReviewing);
 
     setHelpPanel({
@@ -173,10 +174,12 @@ export default function BusinessGoalAlignment() {
     return () => {
       setSplitPanel(null);
       setHelpPanel(null);
+      setSplitPanelOpen(false);
     };
   }, [
     setSplitPanel,
     setHelpPanel,
+    setSplitPanelOpen,
     isReviewing,
     customer,
     objective,

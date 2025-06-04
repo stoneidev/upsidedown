@@ -66,7 +66,7 @@ const layerTypes: Record<ServiceLayer["type"], LayerType> = {
 };
 
 export default function ServiceBlueprint() {
-  const { setSplitPanel, setHelpPanel } = useAppLayout();
+  const { setSplitPanel, setHelpPanel, setSplitPanelOpen } = useAppLayout();
   const router = useRouter();
 
   const [serviceName, setServiceName] = useState("");
@@ -168,6 +168,7 @@ export default function ServiceBlueprint() {
   );
 
   useEffect(() => {
+    setSplitPanelOpen(false);
     updateSplitPanel(isReviewing);
 
     setHelpPanel({
@@ -193,10 +194,12 @@ export default function ServiceBlueprint() {
     return () => {
       setSplitPanel(null);
       setHelpPanel(null);
+      setSplitPanelOpen(false);
     };
   }, [
     setSplitPanel,
     setHelpPanel,
+    setSplitPanelOpen,
     isReviewing,
     serviceName,
     layers,

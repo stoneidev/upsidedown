@@ -12,7 +12,7 @@ import { splitPanelConfig } from "@/app/config/splitPanel";
 import { helpPanelConfig } from "@/app/config/helpPanel";
 
 export default function WardleyMapping() {
-  const { setSplitPanel, setHelpPanel } = useAppLayout();
+  const { setSplitPanel, setHelpPanel, setSplitPanelOpen } = useAppLayout();
 
   useEffect(() => {
     setSplitPanel({
@@ -20,6 +20,8 @@ export default function WardleyMapping() {
       header: "Wardley Mapping Details",
       children: "This is the content for Wardley Mapping",
     });
+    setSplitPanelOpen(true);
+
 
     setHelpPanel({
       ...helpPanelConfig,
@@ -30,8 +32,9 @@ export default function WardleyMapping() {
     return () => {
       setSplitPanel(null);
       setHelpPanel(null);
+      setSplitPanelOpen(false);
     };
-  }, [setSplitPanel, setHelpPanel]);
+  }, [setSplitPanel, setHelpPanel, setSplitPanelOpen]);
 
   return (
     <ContentLayout

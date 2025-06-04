@@ -39,7 +39,7 @@ const impactOptions = [
 ];
 
 export default function OutcomeIdentification() {
-  const { setSplitPanel, setHelpPanel } = useAppLayout();
+  const { setSplitPanel, setHelpPanel, setSplitPanelOpen } = useAppLayout();
   const router = useRouter();
 
   const [problemStatement, setProblemStatement] = useState("");
@@ -152,6 +152,7 @@ export default function OutcomeIdentification() {
   );
 
   useEffect(() => {
+    setSplitPanelOpen(false);
     updateSplitPanel(isReviewing);
 
     setHelpPanel({
@@ -179,10 +180,12 @@ export default function OutcomeIdentification() {
     return () => {
       setSplitPanel(null);
       setHelpPanel(null);
+      setSplitPanelOpen(false);
     };
   }, [
     setSplitPanel,
     setHelpPanel,
+    setSplitPanelOpen,
     isReviewing,
     problemStatement,
     outcomes,

@@ -17,6 +17,7 @@ import {
   StatusIndicator,
   Grid,
   Badge,
+  Link,
 } from "@cloudscape-design/components";
 import { useAppLayout } from "@/app/context/AppLayoutContext";
 import dynamic from "next/dynamic";
@@ -322,11 +323,6 @@ export default function EngagementsPage() {
     currentPageIndex * preferences.pageSize
   );
 
-  // Row 클릭 핸들러
-  const handleRowClick = (event: { detail: { item: Engagement } }) => {
-    setSelectedRow(event.detail.item);
-  };
-
   // 테이블 컬럼 정의
   const columnDefinitions = [
     {
@@ -344,7 +340,16 @@ export default function EngagementsPage() {
     {
       id: "engagementName",
       header: "Project Name",
-      cell: (item: Engagement) => item.engagementName,
+      cell: (item: Engagement) => (
+        <Link
+          onFollow={(e) => {
+            e.preventDefault();
+            setSelectedRow(item);
+          }}
+        >
+          {item.engagementName}
+        </Link>
+      ),
       sortingField: "engagementName",
     },
     {
@@ -380,16 +385,27 @@ export default function EngagementsPage() {
     {
       id: "actions",
       header: "Actions",
-      cell: () => (
-        <Button
-          variant="link"
-          onClick={(e) => {
-            e.stopPropagation(); // 이벤트 전파 방지
-            moveToRandomNavigation(); // 랜덤한 페이지로 이동
-          }}
-        >
-          이동
-        </Button>
+      cell: (item: Engagement) => (
+        <SpaceBetween direction="horizontal" size="xs">
+          <Button
+            variant="link"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedRow(item);
+            }}
+          >
+            상세보기
+          </Button>
+          <Button
+            variant="link"
+            onClick={(e) => {
+              e.stopPropagation();
+              moveToRandomNavigation();
+            }}
+          >
+            이동
+          </Button>
+        </SpaceBetween>
       ),
     },
   ];
@@ -422,7 +438,6 @@ export default function EngagementsPage() {
               onSelectionChange={(e) =>
                 setSelectedItems(e.detail.selectedItems)
               }
-              onRowClick={handleRowClick}
               variant="full-page"
               stickyHeader={true}
               header={

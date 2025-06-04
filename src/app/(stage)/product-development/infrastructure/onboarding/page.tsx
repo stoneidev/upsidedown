@@ -83,7 +83,7 @@ const databaseTypeOptions = [
 ];
 
 export default function InfrastructureOnboarding() {
-  const { setSplitPanel, setHelpPanel } = useAppLayout();
+  const { setSplitPanel, setHelpPanel, setSplitPanelOpen } = useAppLayout();
   const router = useRouter();
 
   const [projectName, setProjectName] = useState("");
@@ -226,6 +226,7 @@ export default function InfrastructureOnboarding() {
   );
 
   useEffect(() => {
+    setSplitPanelOpen(false);
     updateSplitPanel(isReviewing);
 
     setHelpPanel({
@@ -253,10 +254,12 @@ export default function InfrastructureOnboarding() {
     return () => {
       setSplitPanel(null);
       setHelpPanel(null);
+      setSplitPanelOpen(false);
     };
   }, [
     setSplitPanel,
     setHelpPanel,
+    setSplitPanelOpen,
     isReviewing,
     projectName,
     onboardingSteps,

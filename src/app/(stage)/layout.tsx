@@ -86,7 +86,7 @@ function TopNavigationWithEngagements() {
 }
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
-  const { helpPanel, notifications, splitPanel, splitPanelOpen } =
+  const { helpPanel, notifications, splitPanel, splitPanelOpen, setSplitPanelOpen } =
     useAppLayout();
   const router = useRouter();
   const pathname = usePathname();
@@ -148,6 +148,7 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
         toolsHide={false}
         content={children}
         splitPanelOpen={splitPanelOpen}
+        onSplitPanelToggle={({ detail }) => setSplitPanelOpen(detail.open)}
         splitPanel={splitPanel ? <SplitPanel {...splitPanel} /> : undefined}
       />
     </>

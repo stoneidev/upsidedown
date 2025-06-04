@@ -41,7 +41,7 @@ const emotionOptions: SelectProps.Option[] = [
 ];
 
 export default function CustomerExperienceMap() {
-  const { setSplitPanel, setHelpPanel } = useAppLayout();
+  const { setSplitPanel, setHelpPanel, setSplitPanelOpen } = useAppLayout();
   const router = useRouter();
 
   const [persona, setPersona] = useState("");
@@ -151,6 +151,7 @@ export default function CustomerExperienceMap() {
   );
 
   useEffect(() => {
+    setSplitPanelOpen(false);
     updateSplitPanel(isReviewing);
 
     setHelpPanel({
@@ -180,10 +181,12 @@ export default function CustomerExperienceMap() {
     return () => {
       setSplitPanel(null);
       setHelpPanel(null);
+      setSplitPanelOpen(false);
     };
   }, [
     setSplitPanel,
     setHelpPanel,
+    setSplitPanelOpen,
     isReviewing,
     persona,
     scenario,
