@@ -176,7 +176,7 @@ export default function CustomerExperienceMap() {
           <Box variant="p">
             • Stage: Key stages the customer goes through
             <br />• Action: Specific actions at each stage
-            <br />• Thought: Customer's inner thoughts
+            <br />• Thought: Customer&apos;s inner thoughts
             <br />• Emotion: Emotional state at each stage
             <br />• Touchpoint: Points of contact with the customer
             <br />• Pain Point: Discomforts and issues
