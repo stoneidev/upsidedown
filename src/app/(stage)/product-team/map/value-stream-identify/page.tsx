@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Container,
   ContentLayout,
@@ -18,6 +18,16 @@ import {
   ColumnLayout,
 } from "@cloudscape-design/components";
 import { useAppLayout } from "@/app/context/AppLayoutContext";
+import ReactFlow, { 
+  Background, 
+  Controls, 
+  MiniMap, 
+  Node, 
+  Edge, 
+  Position,
+  MarkerType
+} from 'reactflow';
+import 'reactflow/dist/style.css';
 
 interface Activity {
   id: string;
@@ -26,6 +36,16 @@ interface Activity {
   leadTime: string;
   painPoint: string;
   status: "value-add" | "non-value-add" | "necessary-non-value-add";
+}
+
+interface FlowNode extends Node {
+  data: {
+    label: string;
+    type?: string;
+    status?: Activity["status"];
+    description?: string;
+    leadTime?: string;
+  };
 }
 
 const statusOptions = [
@@ -57,6 +77,7 @@ export default function ValueStreamIdentify() {
   const [showReview, setShowReview] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showDrawing, setShowDrawing] = useState(false);
 
   const addActivity = () => {
     const newId = (activities.length + 1).toString();
@@ -240,12 +261,142 @@ export default function ValueStreamIdentify() {
     }
   };
 
+  const handleDrawing = () => {
+    if (validate()) {
+      setShowDrawing(true);
+    }
+  };
+
+  // Generate nodes and edges for ReactFlow
+  const { nodes, edges } = useMemo(() => {
+    if (!showDrawing) return { nodes: [], edges: [] };
+
+    const flowNodes: FlowNode[] = [];
+    const flowEdges: Edge[] = [];
+    
+    // Add trigger node
+    flowNodes.push({
+      id: 'trigger',
+      type: 'input',
+      data: { 
+        label: trigger,
+        type: 'trigger'
+      },
+      position: { x: 0, y: 100 },
+      sourcePosition: Position.Right,
+      targetPosition: Position.Left,
+      style: { 
+        background: '#f5f5f5', 
+        border: '1px solid #d5dbdb',
+        borderRadius: '8px',
+        padding: '10px',
+        width: 180
+      }
+    });
+
+    // Add activity nodes
+    activities.forEach((activity, index) => {
+      const nodeId = `activity-${activity.id}`;
+      const xPosition = 250 + (index * 250);
+      
+      let nodeColor = '#0073bb'; // value-add (blue)
+      if (activity.status === 'non-value-add') {
+        nodeColor = '#d13212'; // red
+      } else if (activity.status === 'necessary-non-value-add') {
+        nodeColor = '#f2a400'; // yellow/orange
+      }
+      
+      flowNodes.push({
+        id: nodeId,
+        data: { 
+          label: activity.name || `Activity ${activity.id}`,
+          status: activity.status,
+          description: activity.description,
+          leadTime: activity.leadTime
+        },
+        position: { x: xPosition, y: 100 },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+        style: { 
+          background: nodeColor,
+          color: 'white',
+          border: '1px solid #d5dbdb',
+          borderRadius: '8px',
+          padding: '10px',
+          width: 180
+        }
+      });
+
+      // Connect from previous node
+      const sourceId = index === 0 ? 'trigger' : `activity-${activities[index - 1].id}`;
+      flowEdges.push({
+        id: `edge-${sourceId}-${nodeId}`,
+        source: sourceId,
+        target: nodeId,
+        animated: true,
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+        },
+        style: { stroke: '#2ea597' }
+      });
+    });
+
+    // Add value node at the end
+    const valueNodeId = 'value';
+    flowNodes.push({
+      id: valueNodeId,
+      type: 'output',
+      data: { 
+        label: value,
+        type: 'value'
+      },
+      position: { x: 250 + (activities.length * 250), y: 100 },
+      targetPosition: Position.Left,
+      style: { 
+        background: '#16191f', 
+        color: 'white',
+        border: '1px solid #d5dbdb',
+        borderRadius: '8px',
+        padding: '10px',
+        width: 180
+      }
+    });
+
+    // Connect last activity to value
+    if (activities.length > 0) {
+      const lastActivityId = `activity-${activities[activities.length - 1].id}`;
+      flowEdges.push({
+        id: `edge-${lastActivityId}-${valueNodeId}`,
+        source: lastActivityId,
+        target: valueNodeId,
+        animated: true,
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+        },
+        style: { stroke: '#2ea597' }
+      });
+    }
+
+    return { nodes: flowNodes, edges: flowEdges };
+  }, [showDrawing, trigger, value, activities]);
+
   return (
     <ContentLayout
       header={
         <Header
           variant="h1"
           description="Identify and analyze the value stream of product or service delivery process"
+          actions={
+            <SpaceBetween direction="horizontal" size="xs">
+              <Button 
+                onClick={handleDrawing} 
+                iconName="external" 
+                disabled={!streamName || !trigger || !value || activities.some(a => !a.name)}
+              >
+                Drawing
+              </Button>
+            </SpaceBetween>
+          }
         >
           Value Stream Identification
         </Header>
@@ -593,14 +744,44 @@ export default function ValueStreamIdentify() {
           </div>
         </Container>
 
-        <SpaceBetween direction="horizontal" size="xs">
-          <Button onClick={handleReview} iconAlign="right" iconName="search">
-            Review
-          </Button>
-          <Button variant="primary" iconAlign="right" iconName="check">
-            Save
-          </Button>
-        </SpaceBetween>
+        {showDrawing ? (
+          <Container
+            header={
+              <Header
+                variant="h2"
+                actions={
+                  <Button onClick={() => setShowDrawing(false)}>
+                    Back to Form
+                  </Button>
+                }
+              >
+                Value Stream Flow Diagram
+              </Header>
+            }
+          >
+            <div style={{ height: '70vh', width: '100%' }}>
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                fitView
+                attributionPosition="bottom-right"
+              >
+                <Controls />
+                <MiniMap />
+                <Background color="#f8f8f8" gap={16} />
+              </ReactFlow>
+            </div>
+          </Container>
+        ) : (
+          <SpaceBetween direction="horizontal" size="xs">
+            <Button onClick={handleReview} iconAlign="right" iconName="search">
+              Review
+            </Button>
+            <Button variant="primary" iconAlign="right" iconName="check">
+              Save
+            </Button>
+          </SpaceBetween>
+        )}
       </SpaceBetween>
     </ContentLayout>
   );
