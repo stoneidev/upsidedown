@@ -7,7 +7,6 @@ import {
   Header,
   Button,
   SpaceBetween,
-  Box,
   Pagination,
   FormField,
   Input,
@@ -17,6 +16,7 @@ import {
   Spinner,
   Table,
 } from "@cloudscape-design/components";
+import Box from "@cloudscape-design/components/box";
 import { useAppLayout } from "@/app/context/AppLayoutContext";
 import { splitPanelConfig } from "@/app/config/splitPanel";
 import { helpPanelConfig } from "@/app/config/helpPanel";
@@ -434,18 +434,8 @@ export default function StoryWorkshop() {
             header="Modify User Story"
             size="large"
           >
-            <Box
-              css={{
-                maxWidth: 600,
-                margin: "0 auto", 
-                minHeight: 500,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box style={{ width: "100%" }}>
+            <Box>
+              <Box>
                 <SpaceBetween size="l">
                   <FormField label="Title">
                     <Input
@@ -529,12 +519,7 @@ export default function StoryWorkshop() {
                   </FormField>
                 </SpaceBetween>
               </Box>
-              <Box
-                width="100%"
-                display="flex"
-                justifyContent="flex-end"
-                margin={{ top: "l" }}
-              >
+              <Box display="block" margin={{ top: "l" }}>
                 <SpaceBetween direction="horizontal" size="xs">
                   <Button onClick={handleModifyCancel}>Cancel</Button>
                   <Button variant="primary" onClick={handleModifySubmit}>
