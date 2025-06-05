@@ -124,7 +124,7 @@ export default function LoginPage() {
           <TextContent>
             <p>
               <Box variant="span" fontSize="body-s" color="text-body-secondary">
-                Don't have an account yet?{" "}
+                Don&apos;t have an account yet?{" "}
               </Box>
               <Link fontSize="body-s" onFollow={() => router.push("/signup")}>
                 Sign Up
