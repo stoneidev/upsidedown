@@ -156,7 +156,7 @@ export const navigationConfig: SideNavigationProps = {
             },
             {
               type: "link",
-              text: "Story Wotkshop",
+              text: "Story Workshop",
               href: "#/product-development/develop/story-workshop",
             },
             {

@@ -27,11 +27,11 @@ export default function LoginPage() {
     setPasswordError("");
 
     if (!email) {
-      setEmailError("이메일을 입력해주세요.");
+      setEmailError("Please enter your email.");
       isValid = false;
     }
     if (!password) {
-      setPasswordError("비밀번호를 입력해주세요.");
+      setPasswordError("Please enter your password.");
       isValid = false;
     }
     return isValid;
@@ -57,7 +57,7 @@ export default function LoginPage() {
             </Box>
           </Box>
           <Box textAlign="center" variant="p" color="text-body-secondary">
-            제품 개발 프로세스 관리 플랫폼
+            Product development process management platform
           </Box>
         </SpaceBetween>
       }
@@ -67,9 +67,9 @@ export default function LoginPage() {
           <form onSubmit={handleLogin}>
             <SpaceBetween size="xl">
               <SpaceBetween size="m">
-                <Header variant="h1">로그인</Header>
+                <Header variant="h1">Login</Header>
 
-                <FormField label="이메일" errorText={emailError} stretch>
+                <FormField label="Email" errorText={emailError} stretch>
                   <Input
                     type="email"
                     value={email}
@@ -82,7 +82,7 @@ export default function LoginPage() {
                   />
                 </FormField>
 
-                <FormField label="비밀번호" errorText={passwordError} stretch>
+                <FormField label="Password" errorText={passwordError} stretch>
                   <Input
                     type="password"
                     value={password}
@@ -90,18 +90,18 @@ export default function LoginPage() {
                       setPassword(detail.value);
                       setPasswordError("");
                     }}
-                    placeholder="비밀번호를 입력하세요"
+                    placeholder="Enter your password"
                   />
                 </FormField>
 
                 <Box textAlign="right">
-                  <Link fontSize="body-s">비밀번호를 잊으셨나요?</Link>
+                  <Link fontSize="body-s">Forgot your password?</Link>
                 </Box>
               </SpaceBetween>
 
               <SpaceBetween size="s">
                 <Button variant="primary" fullWidth formAction="submit">
-                  로그인
+                  Login
                 </Button>
 
                 <Box
@@ -109,11 +109,11 @@ export default function LoginPage() {
                   fontSize="body-s"
                   color="text-body-secondary"
                 >
-                  또는
+                  or
                 </Box>
 
                 <Button fullWidth iconAlign="left">
-                  Google로 계속하기
+                  Continue with Google
                 </Button>
               </SpaceBetween>
             </SpaceBetween>
@@ -124,10 +124,10 @@ export default function LoginPage() {
           <TextContent>
             <p>
               <Box variant="span" fontSize="body-s" color="text-body-secondary">
-                아직 계정이 없으신가요?{" "}
+                Don't have an account yet?{" "}
               </Box>
               <Link fontSize="body-s" onFollow={() => router.push("/signup")}>
-                회원가입
+                Sign Up
               </Link>
             </p>
           </TextContent>
@@ -138,14 +138,14 @@ export default function LoginPage() {
         <Box textAlign="center" fontSize="body-s" color="text-body-secondary">
           <SpaceBetween size="xs" direction="horizontal" alignItems="center">
             <Link fontSize="body-s" external>
-              이용약관
+              Terms of Service
             </Link>
             <Box variant="span">•</Box>
             <Link fontSize="body-s" external>
-              개인정보처리방침
+              Privacy Policy
             </Link>
             <Box variant="span">•</Box>
-            <Link fontSize="body-s">문의하기</Link>
+            <Link fontSize="body-s">Contact Us</Link>
           </SpaceBetween>
         </Box>
       </Box>

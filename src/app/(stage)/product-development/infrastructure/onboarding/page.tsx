@@ -70,16 +70,16 @@ const regionOptions: SelectProps.Option[] = [
 ];
 
 const computeTypeOptions = [
-  { value: "ec2", label: "EC2 - 단일 서버 또는 Auto Scaling 그룹" },
-  { value: "eks", label: "EKS - Kubernetes 클러스터" },
-  { value: "ecs", label: "ECS - 컨테이너 오케스트레이션" },
+  { value: "ec2", label: "EC2 - Single server or Auto Scaling Group" },
+  { value: "eks", label: "EKS - Kubernetes Cluster" },
+  { value: "ecs", label: "ECS - Container Orchestration" },
 ];
 
 const databaseTypeOptions = [
-  { value: "rds", label: "RDS - 관계형 데이터베이스" },
-  { value: "dynamodb", label: "DynamoDB - NoSQL 데이터베이스" },
-  { value: "both", label: "RDS + DynamoDB - 하이브리드 구성" },
-  { value: "none", label: "데이터베이스 미사용" },
+  { value: "rds", label: "RDS - Relational Database" },
+  { value: "dynamodb", label: "DynamoDB - NoSQL Database" },
+  { value: "both", label: "RDS + DynamoDB - Hybrid Configuration" },
+  { value: "none", label: "No Database" },
 ];
 
 export default function InfrastructureOnboarding() {
@@ -112,24 +112,24 @@ export default function InfrastructureOnboarding() {
   const [onboardingSteps, setOnboardingSteps] = useState<OnboardingStep[]>([
     {
       id: "1",
-      title: "개발 환경 설정",
-      description: "로컬 개발 환경 및 IDE 설정",
+      title: "Development Environment Setup",
+      description: "Setting up local development environment and IDE",
       status: "pending",
       assignee: "",
       dueDate: "",
     },
     {
       id: "2",
-      title: "CI/CD 파이프라인 구성",
-      description: "빌드 및 배포 자동화 설정",
+      title: "CI/CD Pipeline Configuration",
+      description: "Setting up automated build and deployment",
       status: "pending",
       assignee: "",
       dueDate: "",
     },
     {
       id: "3",
-      title: "모니터링 시스템 구축",
-      description: "로깅 및 알림 시스템 설정",
+      title: "Monitoring System Setup",
+      description: "Setting up logging and notification system",
       status: "pending",
       assignee: "",
       dueDate: "",
@@ -143,20 +143,23 @@ export default function InfrastructureOnboarding() {
     (reviewing: boolean) => {
       if (reviewing && projectName && onboardingSteps.length > 0) {
         setSplitPanel({
-          header: "AI 검토 의견",
+          header: "AI Review Feedback",
           children: (
             <SpaceBetween size="m">
-              <Alert type="info" header="인프라 온보딩 계획 분석 완료">
-                작성하신 온보딩 계획을 분석했습니다.
+              <Alert
+                type="info"
+                header="Infrastructure Onboarding Plan Analysis Completed"
+              >
+                We analyzed your Onboarding Plan.
               </Alert>
 
-              <Box variant="h4">프로젝트 정보 분석</Box>
+              <Box variant="h4">Project Information Analysis</Box>
               <Box variant="p">
-                프로젝트 정보가 명확하게 정의되었습니다.
+                Your project information is clearly defined.
                 <StatusIndicator type="success">Good</StatusIndicator>
               </Box>
 
-              <Box variant="h4">온보딩 단계 분석</Box>
+              <Box variant="h4">Onboarding Step Analysis</Box>
               <SpaceBetween size="xs">
                 {onboardingSteps.map((step, index) => (
                   <Box key={step.id}>
@@ -169,53 +172,52 @@ export default function InfrastructureOnboarding() {
                           : "grey"
                       }
                     >
-                      단계 {index + 1}
+                      Step {index + 1}
                     </Badge>{" "}
                     {step.assignee ? (
-                      <StatusIndicator type="success">
-                        담당자 지정됨
-                      </StatusIndicator>
+                      <StatusIndicator type="success">Assigned</StatusIndicator>
                     ) : (
                       <Box
                         variant="span"
                         color="text-status-error"
                         fontWeight="bold"
                       >
-                        담당자 미지정
+                        Unassigned
                       </Box>
                     )}
                   </Box>
                 ))}
               </SpaceBetween>
 
-              <Box variant="h4">개선 제안</Box>
+              <Box variant="h4">Improvement Suggestions</Box>
               <SpaceBetween size="xs">
-                <Box>• 각 단계별 의존성 관계 명시</Box>
-                <Box>• 리스크 요인 및 대응 방안 추가</Box>
-                <Box>• 단계별 체크리스트 상세화</Box>
+                <Box>• Specify Dependency Relationships Between Steps</Box>
+                <Box>• Add Risk Factors and Corresponding Actions</Box>
+                <Box>• Detailed Checklists for Each Step</Box>
               </SpaceBetween>
             </SpaceBetween>
           ),
         });
       } else {
         setSplitPanel({
-          header: "인프라 온보딩 가이드",
+          header: "Infrastructure Onboarding Guide",
           children: (
             <SpaceBetween size="m">
-              <Box variant="h4">효과적인 인프라 온보딩</Box>
+              <Box variant="h4">Effective Infrastructure Onboarding</Box>
               <Box variant="p">
-                체계적인 인프라 구축을 위한 단계별 계획을 수립하세요.
+                Plan your step-by-step approach for a systematic infrastructure
+                setup.
               </Box>
-              <Box variant="h4">주요 고려사항</Box>
+              <Box variant="h4">Key Considerations</Box>
               <Box variant="p">
-                • 개발 환경 표준화
+                • Standardization of Development Environment
                 <br />
-                • 자동화된 배포 프로세스
+                • Automated Deployment Process
                 <br />
-                • 모니터링 및 알림 체계
+                • Monitoring and Notification System
                 <br />
-                • 보안 및 접근 제어
-                <br />• 문서화 및 지식 공유
+                • Security and Access Control
+                <br />• Documentation and Knowledge Sharing
               </Box>
             </SpaceBetween>
           ),
@@ -234,18 +236,20 @@ export default function InfrastructureOnboarding() {
       children: (
         <SpaceBetween size="m">
           <Box variant="p">
-            프로젝트의 인프라 구축을 위한 단계별 온보딩 계획을 수립하세요.
+            Plan your step-by-step approach for a systematic infrastructure
+            setup.
           </Box>
-          <Box variant="h4">온보딩 단계</Box>
+          <Box variant="h4">Onboarding Steps</Box>
           <Box variant="p">
-            • 개발 환경: 로컬 개발 환경 설정
+            • Development Environment: Setting up local development environment
             <br />
-            • CI/CD: 빌드 및 배포 자동화
+            • CI/CD: Automated build and deployment
             <br />
-            • 모니터링: 로깅 및 알림 시스템
+            • Monitoring: Logging and notification system
             <br />
-            • 보안: 접근 제어 및 보안 설정
-            <br />• 문서화: 인프라 구성 문서 작성
+            • Security: Access control and security setup
+            <br />• Documentation: Writing infrastructure configuration
+            documents
           </Box>
         </SpaceBetween>
       ),
@@ -298,18 +302,18 @@ export default function InfrastructureOnboarding() {
     const newErrors: Record<string, string> = {};
 
     if (!projectName.trim()) {
-      newErrors.projectName = "프로젝트명을 입력해주세요.";
+      newErrors.projectName = "Please enter the project name.";
     }
 
     if (!projectDescription.trim()) {
-      newErrors.projectDescription = "프로젝트 설명을 입력해주세요.";
+      newErrors.projectDescription = "Please enter the project description.";
     }
 
     const hasUnassignedSteps = onboardingSteps.some(
       (step) => !step.assignee.trim()
     );
     if (hasUnassignedSteps) {
-      newErrors.onboardingSteps = "모든 단계에 담당자를 지정해주세요.";
+      newErrors.onboardingSteps = "Please assign an assignee to all steps.";
     }
 
     setErrors(newErrors);
@@ -334,7 +338,7 @@ export default function InfrastructureOnboarding() {
       header={
         <Header
           variant="h1"
-          description="프로젝트의 인프라 구축을 위한 단계별 온보딩 계획을 수립합니다"
+          description="Plan your step-by-step approach for a systematic infrastructure setup."
         >
           Infrastructure Onboarding
         </Header>
@@ -349,9 +353,10 @@ export default function InfrastructureOnboarding() {
               setShowReview(false);
               setIsReviewing(false);
             }}
-            header="검토 완료"
+            header="Review Completed"
           >
-            인프라 온보딩 계획이 작성되었습니다. 다음 단계로 진행할 수 있습니다.
+            Your infrastructure onboarding plan has been created. You can
+            proceed to the next step.
           </Alert>
         )}
 
@@ -359,15 +364,15 @@ export default function InfrastructureOnboarding() {
           header={
             <Header
               variant="h2"
-              description="온보딩할 프로젝트의 기본 정보를 입력하세요"
+              description="Enter the basic information of the project you want to onboard"
             >
-              프로젝트 정보
+              Project Information
             </Header>
           }
         >
           <SpaceBetween size="l">
             <FormField
-              label="프로젝트명"
+              label="Project Name"
               errorText={errors.projectName}
               stretch
             >
@@ -378,13 +383,13 @@ export default function InfrastructureOnboarding() {
                   setErrors({ ...errors, projectName: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: Product Management Platform"
+                placeholder="e.g., Product Management Platform"
               />
             </FormField>
 
             <FormField
-              label="프로젝트 설명"
-              description="프로젝트의 목적과 주요 기능을 설명하세요"
+              label="Project Description"
+              description="Describe the purpose and main features of the project."
               errorText={errors.projectDescription}
               stretch
             >
@@ -395,7 +400,7 @@ export default function InfrastructureOnboarding() {
                   setErrors({ ...errors, projectDescription: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 제품 관리 프로세스를 지원하는 통합 플랫폼"
+                placeholder="e.g., An integrated platform that supports product management processes."
                 rows={3}
               />
             </FormField>
@@ -404,14 +409,17 @@ export default function InfrastructureOnboarding() {
 
         <Container
           header={
-            <Header variant="h2" description="AWS 인프라 구성을 선택하세요">
-              인프라 구성
+            <Header
+              variant="h2"
+              description="Select AWS Infrastructure Configuration"
+            >
+              Infrastructure Configuration
             </Header>
           }
         >
           <SpaceBetween size="l">
             <ColumnLayout columns={2}>
-              <FormField label="리전">
+              <FormField label="Region">
                 <Select
                   selectedOption={
                     regionOptions.find(
@@ -429,7 +437,7 @@ export default function InfrastructureOnboarding() {
                 />
               </FormField>
 
-              <FormField label="컴퓨팅 리소스">
+              <FormField label="Computing Resource">
                 <RadioGroup
                   value={infrastructureConfig.computeType}
                   onChange={({ detail }) =>
@@ -443,7 +451,7 @@ export default function InfrastructureOnboarding() {
                 />
               </FormField>
 
-              <FormField label="데이터베이스">
+              <FormField label="Database">
                 <RadioGroup
                   value={infrastructureConfig.databaseType}
                   onChange={({ detail }) =>
@@ -458,7 +466,7 @@ export default function InfrastructureOnboarding() {
               </FormField>
             </ColumnLayout>
 
-            <Box variant="h3">모니터링 및 관찰성</Box>
+            <Box variant="h3">Monitoring and Observability</Box>
             <ColumnLayout columns={3}>
               <FormField>
                 <Toggle
@@ -506,7 +514,7 @@ export default function InfrastructureOnboarding() {
               </FormField>
             </ColumnLayout>
 
-            <Box variant="h3">보안</Box>
+            <Box variant="h3">Security</Box>
             <ColumnLayout columns={3}>
               <FormField>
                 <Toggle
@@ -554,7 +562,7 @@ export default function InfrastructureOnboarding() {
               </FormField>
             </ColumnLayout>
 
-            <Box variant="h3">네트워킹</Box>
+            <Box variant="h3">Networking</Box>
             <ColumnLayout columns={3}>
               <FormField>
                 <Toggle
@@ -608,14 +616,14 @@ export default function InfrastructureOnboarding() {
           header={
             <Header
               variant="h2"
-              description="인프라 구축을 위한 단계별 온보딩 계획을 수립하세요"
+              description="Plan your step-by-step approach for a systematic infrastructure setup."
             >
-              온보딩 단계
+              Onboarding Steps
             </Header>
           }
         >
           {errors.onboardingSteps && (
-            <Alert type="error" header="오류">
+            <Alert type="error" header="Error">
               {errors.onboardingSteps}
             </Alert>
           )}
@@ -647,17 +655,17 @@ export default function InfrastructureOnboarding() {
                     <SpaceBetween size="m">
                       <Box>{item.description}</Box>
                       <ColumnLayout columns={2}>
-                        <FormField label="담당자">
+                        <FormField label="Assignee">
                           <Input
                             value={item.assignee}
                             onChange={({ detail }) =>
                               updateStep(item.id, "assignee", detail.value)
                             }
-                            placeholder="담당자 이름"
+                            placeholder="Assignee Name"
                           />
                         </FormField>
 
-                        <FormField label="상태">
+                        <FormField label="Status">
                           <Select
                             selectedOption={
                               statusOptions.find(
@@ -675,7 +683,7 @@ export default function InfrastructureOnboarding() {
                           />
                         </FormField>
 
-                        <FormField label="기한">
+                        <FormField label="Due Date">
                           <Input
                             value={item.dueDate}
                             onChange={({ detail }) =>
@@ -698,20 +706,22 @@ export default function InfrastructureOnboarding() {
         </Container>
 
         {showReview && (
-          <Container header={<Header variant="h2">온보딩 계획 검토</Header>}>
+          <Container
+            header={<Header variant="h2">Onboarding Plan Review</Header>}
+          >
             <SpaceBetween size="m">
               <ColumnLayout columns={2} variant="text-grid">
                 <div>
-                  <Box variant="awsui-key-label">프로젝트명</Box>
+                  <Box variant="awsui-key-label">Project Name</Box>
                   <Box>{projectName}</Box>
                 </div>
                 <div>
-                  <Box variant="awsui-key-label">프로젝트 설명</Box>
+                  <Box variant="awsui-key-label">Project Description</Box>
                   <Box>{projectDescription}</Box>
                 </div>
               </ColumnLayout>
 
-              <Box variant="h4">인프라 구성</Box>
+              <Box variant="h4">Infrastructure Configuration</Box>
               <Grid
                 gridDefinition={[
                   { colspan: 3 },
@@ -721,26 +731,26 @@ export default function InfrastructureOnboarding() {
                 ]}
               >
                 <Box fontSize="body-s">
-                  <Box color="text-body-secondary">리전</Box>
+                  <Box color="text-body-secondary">Region</Box>
                   {regionOptions.find(
                     (opt) => opt.value === infrastructureConfig.region
                   )?.label || "-"}
                 </Box>
                 <Box fontSize="body-s">
-                  <Box color="text-body-secondary">컴퓨팅</Box>
+                  <Box color="text-body-secondary">Computing</Box>
                   {computeTypeOptions.find(
                     (opt) => opt.value === infrastructureConfig.computeType
                   )?.label || "-"}
                 </Box>
                 <Box fontSize="body-s">
-                  <Box color="text-body-secondary">데이터베이스</Box>
+                  <Box color="text-body-secondary">Database</Box>
                   {databaseTypeOptions.find(
                     (opt) => opt.value === infrastructureConfig.databaseType
                   )?.label || "-"}
                 </Box>
               </Grid>
 
-              <Box variant="h4">모니터링</Box>
+              <Box variant="h4">Monitoring</Box>
               <Grid
                 gridDefinition={[
                   { colspan: 4 },
@@ -757,7 +767,7 @@ export default function InfrastructureOnboarding() {
                         : "stopped"
                     }
                   >
-                    {infrastructureConfig.monitoring.xray ? "사용" : "미사용"}
+                    {infrastructureConfig.monitoring.xray ? "Used" : "Not Used"}
                   </StatusIndicator>
                 </Box>
                 <Box fontSize="body-s">
@@ -770,8 +780,8 @@ export default function InfrastructureOnboarding() {
                     }
                   >
                     {infrastructureConfig.monitoring.cloudwatch
-                      ? "사용"
-                      : "미사용"}
+                      ? "Used"
+                      : "Not Used"}
                   </StatusIndicator>
                 </Box>
                 <Box fontSize="body-s">
@@ -784,18 +794,18 @@ export default function InfrastructureOnboarding() {
                     }
                   >
                     {infrastructureConfig.monitoring.prometheus
-                      ? "사용"
-                      : "미사용"}
+                      ? "Used"
+                      : "Not Used"}
                   </StatusIndicator>
                 </Box>
               </Grid>
 
-              <Box variant="h4">온보딩 단계</Box>
+              <Box variant="h4">Onboarding Steps</Box>
               <SpaceBetween size="s">
                 {onboardingSteps.map((step, index) => (
                   <Box key={step.id} padding={{ vertical: "xs" }}>
                     <Box variant="awsui-key-label">
-                      단계 {index + 1}: {step.title}
+                      Step {index + 1}: {step.title}
                     </Box>
                     <Grid
                       gridDefinition={[
@@ -806,7 +816,7 @@ export default function InfrastructureOnboarding() {
                       ]}
                     >
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">상태</Box>
+                        <Box color="text-body-secondary">Status</Box>
                         <Badge
                           color={
                             step.status === "completed"
@@ -822,15 +832,15 @@ export default function InfrastructureOnboarding() {
                         </Badge>
                       </Box>
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">담당자</Box>
+                        <Box color="text-body-secondary">Assignee</Box>
                         {step.assignee || "-"}
                       </Box>
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">기한</Box>
+                        <Box color="text-body-secondary">Due Date</Box>
                         {step.dueDate || "-"}
                       </Box>
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">설명</Box>
+                        <Box color="text-body-secondary">Description</Box>
                         {step.description}
                       </Box>
                     </Grid>
@@ -843,7 +853,7 @@ export default function InfrastructureOnboarding() {
 
         <SpaceBetween direction="horizontal" size="xs">
           <Button onClick={handleReview} iconAlign="right" iconName="search">
-            검토
+            Review
           </Button>
           <Button
             variant="primary"
@@ -851,7 +861,7 @@ export default function InfrastructureOnboarding() {
             iconAlign="right"
             iconName="arrow-right"
           >
-            다음
+            Next
           </Button>
         </SpaceBetween>
       </SpaceBetween>

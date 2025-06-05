@@ -25,10 +25,10 @@ export default function LandingPage() {
         <SpaceBetween size="m">
           <Header
             variant="h1"
-            description="차세대 제품 개발 프로세스 관리 플랫폼"
+            description="Next-generation product development process management platform"
             actions={
               <SpaceBetween size="xs" direction="horizontal">
-                <Button onClick={() => router.push("/login")}>로그인</Button>
+                <Button onClick={() => router.push("/login")}>Login</Button>
                 <Button
                   variant="primary"
                   onClick={() =>
@@ -37,7 +37,7 @@ export default function LandingPage() {
                     )
                   }
                 >
-                  무료로 시작하기
+                  Get Started for Free
                 </Button>
               </SpaceBetween>
             }
@@ -89,13 +89,14 @@ export default function LandingPage() {
               >
                 <SpaceBetween size="l">
                   <Box fontSize="display-l" fontWeight="light">
-                    제품 개발의 모든 단계를{" "}
-                    <Box variant="strong">체계적으로</Box> 관리하세요
+                    Manage every step of product development{" "}
+                    <Box variant="strong">systematically</Box>
                   </Box>
                   <TextContent>
                     <p>
-                      비즈니스 목표 정렬부터 개발 사이클까지, 모든 팀이 하나의
-                      플랫폼에서 협업하며 혁신적인 제품을 만들어갑니다.
+                      From business goal alignment to development cycles, all
+                      teams collaborate on one platform to create innovative
+                      products.
                     </p>
                   </TextContent>
                   <Box>
@@ -108,7 +109,7 @@ export default function LandingPage() {
                         )
                       }
                     >
-                      30일 무료 체험 시작하기
+                      Start 30-day Free Trial
                     </Button>
                   </Box>
                 </SpaceBetween>
@@ -122,9 +123,9 @@ export default function LandingPage() {
           header={
             <Header
               variant="h2"
-              description="팀의 생산성을 극대화하는 핵심 기능"
+              description="Key features to maximize your team's productivity"
             >
-              주요 기능
+              Key Features
             </Header>
           }
         >
@@ -132,33 +133,33 @@ export default function LandingPage() {
             <div>
               <SpaceBetween size="xs">
                 <Box variant="h3">
-                  <Icon name="search" /> 고객 중심 발견
+                  <Icon name="search" /> Customer Discovery
                 </Box>
                 <Box variant="p">
-                  Customer Journey Map, 고객 경험 지도, 가치 흐름 식별 등 고객의
-                  진짜 니즈를 발견하는 도구들
+                  Tools to discover real customer needs, such as Customer
+                  Journey Map, Experience Map, Value Stream Identification, etc.
                 </Box>
               </SpaceBetween>
             </div>
             <div>
               <SpaceBetween size="xs">
                 <Box variant="h3">
-                  <Icon name="settings" /> 체계적인 설계
+                  <Icon name="settings" /> Systematic Design
                 </Box>
                 <Box variant="p">
-                  가설 구축, 프로토타이핑, 측정 지표 설정까지 데이터 기반의 제품
-                  설계 프로세스
+                  Data-driven product design process from hypothesis building,
+                  prototyping, to metric setting.
                 </Box>
               </SpaceBetween>
             </div>
             <div>
               <SpaceBetween size="xs">
                 <Box variant="h3">
-                  <Icon name="status-positive" /> 애자일 개발
+                  <Icon name="status-positive" /> Agile Development
                 </Box>
                 <Box variant="p">
-                  Event Storming, Story Workshop, LRP 등 최신 애자일 방법론 통합
-                  지원
+                  Integrated support for the latest agile methodologies such as
+                  Event Storming, Story Workshop, LRP, etc.
                 </Box>
               </SpaceBetween>
             </div>
@@ -187,19 +188,19 @@ export default function LandingPage() {
             />
           </Container>
           <Container
-            header={<Header variant="h2">데이터 기반 의사결정</Header>}
+            header={<Header variant="h2">Data-driven Decision Making</Header>}
           >
             <SpaceBetween size="m">
               <TextContent>
                 <p>
-                  실시간 대시보드와 분석 도구로 제품의 성과를 측정하고, 데이터에
-                  기반한 빠른 의사결정을 내릴 수 있습니다.
+                  Measure product performance with real-time dashboards and
+                  analytics tools, and make quick decisions based on data.
                 </p>
                 <ul>
-                  <li>실시간 KPI 모니터링</li>
-                  <li>커스터마이징 가능한 대시보드</li>
-                  <li>자동화된 리포트 생성</li>
-                  <li>팀 성과 분석</li>
+                  <li>Real-time KPI Monitoring</li>
+                  <li>Customizable Dashboard</li>
+                  <li>Automated Report Generation</li>
+                  <li>Team Performance Analysis</li>
                 </ul>
               </TextContent>
             </SpaceBetween>
@@ -209,8 +210,8 @@ export default function LandingPage() {
         {/* Benefits */}
         <Container
           header={
-            <Header variant="h2" description="UpsideDown과 함께 성장하세요">
-              도입 효과
+            <Header variant="h2" description="Grow with UpsideDown">
+              Impact
             </Header>
           }
         >
@@ -225,33 +226,33 @@ export default function LandingPage() {
             <Container>
               <SpaceBetween size="xs">
                 <Box variant="h3" color="text-status-success">
-                  40% 단축
+                  40% Faster
                 </Box>
-                <Box variant="p">제품 출시 기간</Box>
+                <Box variant="p">Time to Market</Box>
               </SpaceBetween>
             </Container>
             <Container>
               <SpaceBetween size="xs">
                 <Box variant="h3" color="text-status-success">
-                  3배 향상
+                  3x Improvement
                 </Box>
-                <Box variant="p">팀 협업 효율성</Box>
+                <Box variant="p">Team Collaboration Efficiency</Box>
               </SpaceBetween>
             </Container>
             <Container>
               <SpaceBetween size="xs">
                 <Box variant="h3" color="text-status-success">
-                  85% 감소
+                  85% Reduction
                 </Box>
-                <Box variant="p">프로젝트 리스크</Box>
+                <Box variant="p">Project Risk</Box>
               </SpaceBetween>
             </Container>
             <Container>
               <SpaceBetween size="xs">
                 <Box variant="h3" color="text-status-success">
-                  2배 증가
+                  2x Increase
                 </Box>
-                <Box variant="p">고객 만족도</Box>
+                <Box variant="p">Customer Satisfaction</Box>
               </SpaceBetween>
             </Container>
           </Grid>
@@ -262,9 +263,9 @@ export default function LandingPage() {
           header={
             <Header
               variant="h2"
-              description="다양한 팀이 UpsideDown을 활용하고 있습니다"
+              description="Various teams are using UpsideDown"
             >
-              활용 사례
+              Use Cases
             </Header>
           }
         >
@@ -273,11 +274,11 @@ export default function LandingPage() {
               <Container>
                 <SpaceBetween size="s">
                   <Badge>Product Team</Badge>
-                  <Box variant="h3">제품 기획팀</Box>
+                  <Box variant="h3">Product Planning Team</Box>
                   <TextContent>
                     <p>
-                      비즈니스 목표와 고객 니즈를 정확히 파악하고, 데이터 기반의
-                      의사결정을 내립니다.
+                      Accurately identify business goals and customer needs, and
+                      make data-driven decisions.
                     </p>
                     <ul>
                       <li>Business Goal Alignment</li>
@@ -290,11 +291,11 @@ export default function LandingPage() {
               <Container>
                 <SpaceBetween size="s">
                   <Badge>Product Management</Badge>
-                  <Box variant="h3">프로덕트 매니지먼트</Box>
+                  <Box variant="h3">Product Management</Box>
                   <TextContent>
                     <p>
-                      가설 검증부터 성과 측정까지, 제품의 전체 라이프사이클을
-                      관리합니다.
+                      Manage the entire product lifecycle, from hypothesis
+                      validation to performance measurement.
                     </p>
                     <ul>
                       <li>Hypothesis Building Workshop</li>
@@ -308,16 +309,16 @@ export default function LandingPage() {
             <Container>
               <SpaceBetween size="s">
                 <Badge>Product Development</Badge>
-                <Box variant="h3">개발팀</Box>
+                <Box variant="h3">Development Team</Box>
                 <TextContent>
                   <p>
-                    최신 애자일 방법론을 활용하여 빠르고 효율적인 개발을
-                    진행합니다.
+                    Leverage the latest agile methodologies for fast and
+                    efficient development.
                   </p>
                   <ul>
-                    <li>Event Storming으로 도메인 모델링</li>
-                    <li>Story Workshop으로 요구사항 정의</li>
-                    <li>LRP를 통한 장기 로드맵 수립</li>
+                    <li>Domain modeling with Event Storming</li>
+                    <li>Requirements definition with Story Workshop</li>
+                    <li>Long-term roadmap with LRP</li>
                   </ul>
                 </TextContent>
               </SpaceBetween>
@@ -328,8 +329,8 @@ export default function LandingPage() {
         {/* Customer Testimonials */}
         <Container
           header={
-            <Header variant="h2" description="실제 사용자들의 생생한 후기">
-              고객 후기
+            <Header variant="h2" description="Real user testimonials">
+              Testimonials
             </Header>
           }
         >
@@ -337,30 +338,33 @@ export default function LandingPage() {
             <Container>
               <SpaceBetween size="xs">
                 <Box variant="p">
-                  {'"'}UpsideDown 도입 후 제품 개발 프로세스가 체계화되어 팀
-                  전체의 생산성이 크게 향상되었습니다.{'"'}
+                  {'"'}After implementing UpsideDown, the productivity of the
+                  entire team has significantly improved.{'"'}
                 </Box>
-                <Box variant="small">- 김현수, CTO @ 테크스타트업</Box>
+                <Box variant="small">- Kim Hyun-su, CTO @ Tech Startup</Box>
               </SpaceBetween>
             </Container>
             <Container>
               <SpaceBetween size="xs">
                 <Box variant="p">
-                  {'"'}모든 팀원이 같은 방향을 바라보며 일할 수 있게 되었고,
-                  고객 피드백 반영 속도가 3배 빨라졌습니다.{'"'}
+                  {'"'}Everyone can work towards the same direction, and the
+                  speed of customer feedback reflection has increased three
+                  times.{'"'}
                 </Box>
                 <Box variant="small">
-                  - 박지영, Product Manager @ 핀테크기업
+                  - Park Ji-young, Product Manager @ FinTech Company
                 </Box>
               </SpaceBetween>
             </Container>
             <Container>
               <SpaceBetween size="xs">
                 <Box variant="p">
-                  {'"'}복잡한 프로젝트도 UpsideDown의 체계적인 프로세스로 리스크
-                  없이 관리할 수 있었습니다.{'"'}
+                  {'"'}We could manage complex projects without risk thanks to
+                  the systematic process of UpsideDown.{'"'}
                 </Box>
-                <Box variant="small">- 이준호, VP of Product @ 이커머스</Box>
+                <Box variant="small">
+                  - Lee Jun-ho, VP of Product @ Ecommerce
+                </Box>
               </SpaceBetween>
             </Container>
           </ColumnLayout>
@@ -369,8 +373,11 @@ export default function LandingPage() {
         {/* Pricing */}
         <Container
           header={
-            <Header variant="h2" description="팀 규모에 맞는 플랜을 선택하세요">
-              요금제
+            <Header
+              variant="h2"
+              description="Choose a plan that fits your team size"
+            >
+              Pricing
             </Header>
           }
         >
@@ -384,49 +391,49 @@ export default function LandingPage() {
             <Container>
               <SpaceBetween size="m">
                 <Box variant="h3">Starter</Box>
-                <Box fontSize="heading-xl">무료</Box>
+                <Box fontSize="heading-xl">Free</Box>
                 <TextContent>
                   <ul>
-                    <li>최대 5명 사용자</li>
-                    <li>기본 기능 모두 포함</li>
-                    <li>커뮤니티 지원</li>
+                    <li>Up to 5 users</li>
+                    <li>All basic features included</li>
+                    <li>Community support</li>
                   </ul>
                 </TextContent>
-                <Button fullWidth>무료로 시작</Button>
+                <Button fullWidth>Start for Free</Button>
               </SpaceBetween>
             </Container>
             <Container>
               <SpaceBetween size="m">
                 <Box variant="h3">
-                  <Badge color="blue">인기</Badge> Professional
+                  <Badge color="blue">Popular</Badge> Professional
                 </Box>
-                <Box fontSize="heading-xl">₩49,000/월</Box>
+                <Box fontSize="heading-xl">₩49,000/mo</Box>
                 <TextContent>
                   <ul>
-                    <li>무제한 사용자</li>
-                    <li>고급 분석 기능</li>
-                    <li>우선 지원</li>
-                    <li>API 접근</li>
+                    <li>Unlimited users</li>
+                    <li>Advanced analytics</li>
+                    <li>Priority support</li>
+                    <li>API access</li>
                   </ul>
                 </TextContent>
                 <Button variant="primary" fullWidth>
-                  30일 무료 체험
+                  30-day Free Trial
                 </Button>
               </SpaceBetween>
             </Container>
             <Container>
               <SpaceBetween size="m">
                 <Box variant="h3">Enterprise</Box>
-                <Box fontSize="heading-xl">맞춤 견적</Box>
+                <Box fontSize="heading-xl">Custom Quote</Box>
                 <TextContent>
                   <ul>
-                    <li>모든 Professional 기능</li>
-                    <li>전담 성공 매니저</li>
-                    <li>온프레미스 설치</li>
-                    <li>맞춤 교육</li>
+                    <li>All Professional features</li>
+                    <li>Dedicated success manager</li>
+                    <li>On-premise installation</li>
+                    <li>Custom training</li>
                   </ul>
                 </TextContent>
-                <Button fullWidth>영업팀 문의</Button>
+                <Button fullWidth>Contact Sales</Button>
               </SpaceBetween>
             </Container>
           </Grid>
@@ -437,7 +444,7 @@ export default function LandingPage() {
           <Box textAlign="center" padding={{ vertical: "xl" }}>
             <SpaceBetween size="l">
               <Box fontSize="heading-xl">
-                지금 시작하고 제품 개발의 혁신을 경험하세요
+                Start now and experience innovation in product development
               </Box>
               <SpaceBetween
                 size="xs"
@@ -453,9 +460,9 @@ export default function LandingPage() {
                     )
                   }
                 >
-                  30일 무료 체험 시작하기
+                  Start 30-day Free Trial
                 </Button>
-                <Box variant="span">신용카드 불필요</Box>
+                <Box variant="span">No credit card required</Box>
               </SpaceBetween>
             </SpaceBetween>
           </Box>

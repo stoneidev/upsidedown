@@ -33,11 +33,11 @@ interface JourneyStage {
 }
 
 const emotionOptions: SelectProps.Option[] = [
-  { label: "매우 만족 😊", value: "very-satisfied" },
-  { label: "만족 🙂", value: "satisfied" },
-  { label: "보통 😐", value: "neutral" },
-  { label: "불만족 😕", value: "unsatisfied" },
-  { label: "매우 불만족 😞", value: "very-unsatisfied" },
+  { label: "Very Satisfied 😊", value: "very-satisfied" },
+  { label: "Satisfied 🙂", value: "satisfied" },
+  { label: "Neutral 😐", value: "neutral" },
+  { label: "Unsatisfied 😕", value: "unsatisfied" },
+  { label: "Very Unsatisfied 😞", value: "very-unsatisfied" },
 ];
 
 export default function CustomerExperienceMap() {
@@ -70,39 +70,42 @@ export default function CustomerExperienceMap() {
         journeyStages.some((js) => js.stage)
       ) {
         setSplitPanel({
-          header: "AI 검토 의견",
+          header: "AI Review Feedback",
           children: (
             <SpaceBetween size="m">
-              <Alert type="info" header="고객 경험 맵 분석 완료">
-                작성하신 고객 경험 맵을 분석했습니다. 아래 피드백을 참고하여
-                개선해보세요.
+              <Alert
+                type="info"
+                header="Customer Experience Map Analysis Completed"
+              >
+                We have analyzed the customer experience map you created. Please
+                refer to the feedback below to improve.
               </Alert>
 
-              <Box variant="h4">페르소나 분석</Box>
+              <Box variant="h4">Persona Analysis</Box>
               <Box variant="p">
-                페르소나가 명확하게 정의되었습니다.
+                The persona is clearly defined.
                 <StatusIndicator type="success">Good</StatusIndicator>
               </Box>
 
-              <Box variant="h4">고객 여정 분석</Box>
+              <Box variant="h4">Customer Journey Analysis</Box>
               <Box variant="p">
-                {journeyStages.length}개의 단계로 구성된 여정입니다.
+                The journey consists of {journeyStages.length} stages.
                 <Box variant="span" color="text-status-error" fontWeight="bold">
                   {" "}
-                  일반적으로 5-7개 단계가 적절합니다.
+                  Generally, 5-7 stages are appropriate.
                 </Box>
               </Box>
 
-              <Box variant="h4">페인포인트 분석</Box>
+              <Box variant="h4">Pain Point Analysis</Box>
               <SpaceBetween size="xs">
                 {journeyStages
                   .filter((js) => js.painPoints)
                   .map((js, index) => (
                     <Box key={js.id}>
-                      <Badge color="red">단계 {index + 1}</Badge>{" "}
+                      <Badge color="red">Stage {index + 1}</Badge>{" "}
                       {js.painPoints ? (
                         <StatusIndicator type="warning">
-                          개선 기회 발견
+                          Improvement Opportunity Found
                         </StatusIndicator>
                       ) : (
                         <Box
@@ -110,37 +113,44 @@ export default function CustomerExperienceMap() {
                           color="text-status-error"
                           fontWeight="bold"
                         >
-                          페인포인트 미작성
+                          Pain Point Unfilled
                         </Box>
                       )}
                     </Box>
                   ))}
               </SpaceBetween>
 
-              <Box variant="h4">개선 제안</Box>
+              <Box variant="h4">Improvement Suggestions</Box>
               <SpaceBetween size="xs">
-                <Box>• 각 단계별 감정 변화를 더 구체적으로 기록</Box>
-                <Box>• 터치포인트와 페인포인트의 연관성 분석</Box>
-                <Box>• 개선 기회가 가장 큰 단계 우선순위 설정</Box>
+                <Box>
+                  • Record emotional changes at each stage more concretely
+                </Box>
+                <Box>
+                  • Analyze the correlation between touchpoints and pain points
+                </Box>
+                <Box>
+                  • Prioritize the stage with the highest improvement
+                  opportunity
+                </Box>
               </SpaceBetween>
             </SpaceBetween>
           ),
         });
       } else {
         setSplitPanel({
-          header: "고객 경험 맵 작성 가이드",
+          header: "Customer Experience Map Guide",
           children: (
             <SpaceBetween size="m">
-              <Box variant="h4">효과적인 고객 경험 맵</Box>
+              <Box variant="h4">Effective Customer Experience Map</Box>
               <Box variant="p">
-                고객의 전체 여정을 시각화하여 개선 기회를 발견하세요.
+                Visualize the entire customer journey to discover improvement
+                opportunities.
               </Box>
-              <Box variant="h4">작성 팁</Box>
+              <Box variant="h4">Tips</Box>
               <Box variant="p">
-                • 실제 고객 인터뷰나 관찰을 기반으로 작성
-                <br />
-                • 각 단계별 감정 변화에 주목
-                <br />• 페인포인트는 구체적으로 기술
+                • Base on real customer interviews or observations
+                <br />• Focus on emotional changes at each stage
+                <br />• Describe pain points in detail
               </Box>
             </SpaceBetween>
           ),
@@ -159,20 +169,17 @@ export default function CustomerExperienceMap() {
       children: (
         <SpaceBetween size="m">
           <Box variant="p">
-            고객의 여정을 단계별로 매핑하여 개선 기회를 발견하세요.
+            Map the customer journey by stage to discover improvement
+            opportunities.
           </Box>
-          <Box variant="h4">구성 요소</Box>
+          <Box variant="h4">Components</Box>
           <Box variant="p">
-            • 단계: 고객이 거치는 주요 단계
-            <br />
-            • 행동: 각 단계에서의 구체적 행동
-            <br />
-            • 생각: 고객의 내면적 생각
-            <br />
-            • 감정: 각 단계의 감정 상태
-            <br />
-            • 터치포인트: 고객과의 접점
-            <br />• 페인포인트: 불편사항 및 문제점
+            • Stage: Key stages the customer goes through
+            <br />• Action: Specific actions at each stage
+            <br />• Thought: Customer's inner thoughts
+            <br />• Emotion: Emotional state at each stage
+            <br />• Touchpoint: Points of contact with the customer
+            <br />• Pain Point: Discomforts and issues
           </Box>
         </SpaceBetween>
       ),
@@ -230,16 +237,16 @@ export default function CustomerExperienceMap() {
     const newErrors: Record<string, string> = {};
 
     if (!persona.trim()) {
-      newErrors.persona = "페르소나를 입력해주세요.";
+      newErrors.persona = "Please enter the persona.";
     }
 
     if (!scenario.trim()) {
-      newErrors.scenario = "시나리오를 입력해주세요.";
+      newErrors.scenario = "Please enter the scenario.";
     }
 
     const hasEmptyStage = journeyStages.some((js) => !js.stage.trim());
     if (hasEmptyStage) {
-      newErrors.journeyStages = "모든 단계 이름을 입력해주세요.";
+      newErrors.journeyStages = "Please enter the name of all stages.";
     }
 
     setErrors(newErrors);
@@ -264,7 +271,7 @@ export default function CustomerExperienceMap() {
       header={
         <Header
           variant="h1"
-          description="고객의 여정을 시각화하여 개선 기회를 발견합니다"
+          description="Visualize the customer journey to discover improvement opportunities"
         >
           Customer Experience Map
         </Header>
@@ -279,26 +286,24 @@ export default function CustomerExperienceMap() {
               setShowReview(false);
               setIsReviewing(false);
             }}
-            header="검토 완료"
+            header="Review Completed"
           >
-            고객 경험 맵이 작성되었습니다. 다음 단계로 진행할 수 있습니다.
+            Customer experience map has been created. You can proceed to the
+            next step.
           </Alert>
         )}
 
         <Container
           header={
-            <Header
-              variant="h2"
-              description="고객 페르소나와 시나리오를 정의하세요"
-            >
-              기본 정보
+            <Header variant="h2" description="Define the persona and scenario">
+              Basic Information
             </Header>
           }
         >
           <SpaceBetween size="l">
             <FormField
-              label="페르소나"
-              description="대표 고객의 특성을 구체적으로 정의하세요"
+              label="Persona"
+              description="Define the characteristics of the representative customer in detail."
               errorText={errors.persona}
               stretch
             >
@@ -309,13 +314,13 @@ export default function CustomerExperienceMap() {
                   setErrors({ ...errors, persona: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 30대 중반 프로덕트 매니저, 5년차, 애자일 경험 있음"
+                placeholder="e.g., Mid-30s Product Manager, 5 years experience, familiar with Agile"
               />
             </FormField>
 
             <FormField
-              label="시나리오"
-              description="고객이 겪는 구체적인 상황을 설명하세요"
+              label="Scenario"
+              description="Describe the specific situation the customer is experiencing."
               errorText={errors.scenario}
               stretch
             >
@@ -326,7 +331,7 @@ export default function CustomerExperienceMap() {
                   setErrors({ ...errors, scenario: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 새로운 제품 기능을 기획하고 개발팀과 협업하는 과정"
+                placeholder="e.g., Planning a new product feature and collaborating with the development team"
                 rows={3}
               />
             </FormField>
@@ -337,18 +342,18 @@ export default function CustomerExperienceMap() {
           header={
             <Header
               variant="h2"
-              description="고객 여정의 각 단계를 상세히 매핑하세요"
+              description="Map each stage of the customer journey in detail"
               actions={
                 <Button
                   iconName="add-plus"
                   onClick={addJourneyStage}
                   disabled={journeyStages.length >= 10}
                 >
-                  단계 추가
+                  Add Stage
                 </Button>
               }
             >
-              고객 여정 단계
+              Customer Journey Stage
             </Header>
           }
         >
@@ -365,19 +370,19 @@ export default function CustomerExperienceMap() {
                         variant="icon"
                         disabled={journeyStages.length === 1}
                         onClick={() => removeJourneyStage(js.id)}
-                        ariaLabel={`단계 ${index + 1} 삭제`}
+                        ariaLabel={`Stage ${index + 1} Delete`}
                       />
                     }
                   >
-                    단계 {index + 1}
+                    Stage {index + 1}
                   </Header>
                 }
               >
                 <ColumnLayout columns={2}>
                   <FormField
-                    label="단계 이름"
+                    label="Stage Name"
                     errorText={
-                      errors.journeyStages && !js.stage ? "필수 입력" : ""
+                      errors.journeyStages && !js.stage ? "Required" : ""
                     }
                   >
                     <Input
@@ -387,11 +392,11 @@ export default function CustomerExperienceMap() {
                         setErrors({ ...errors, journeyStages: "" });
                         setIsReviewing(false);
                       }}
-                      placeholder="예: 문제 인식"
+                      placeholder="e.g., Problem Recognition"
                     />
                   </FormField>
 
-                  <FormField label="감정 상태">
+                  <FormField label="Emotion">
                     <Select
                       selectedOption={
                         emotionOptions.find(
@@ -407,54 +412,54 @@ export default function CustomerExperienceMap() {
                         setIsReviewing(false);
                       }}
                       options={emotionOptions}
-                      placeholder="감정 선택"
+                      placeholder="Select emotion"
                     />
                   </FormField>
 
-                  <FormField label="행동">
+                  <FormField label="Action">
                     <Textarea
                       value={js.actions}
                       onChange={({ detail }) => {
                         updateJourneyStage(js.id, "actions", detail.value);
                         setIsReviewing(false);
                       }}
-                      placeholder="이 단계에서 고객이 하는 행동"
+                      placeholder="What does the customer do at this stage?"
                       rows={2}
                     />
                   </FormField>
 
-                  <FormField label="생각">
+                  <FormField label="Thought">
                     <Textarea
                       value={js.thoughts}
                       onChange={({ detail }) => {
                         updateJourneyStage(js.id, "thoughts", detail.value);
                         setIsReviewing(false);
                       }}
-                      placeholder="고객의 내면적 생각"
+                      placeholder="Customer's inner thoughts"
                       rows={2}
                     />
                   </FormField>
 
-                  <FormField label="터치포인트">
+                  <FormField label="Touchpoint">
                     <Textarea
                       value={js.touchpoints}
                       onChange={({ detail }) => {
                         updateJourneyStage(js.id, "touchpoints", detail.value);
                         setIsReviewing(false);
                       }}
-                      placeholder="고객과의 접점 (웹사이트, 이메일 등)"
+                      placeholder="Points of contact (website, email, etc.)"
                       rows={2}
                     />
                   </FormField>
 
-                  <FormField label="페인포인트">
+                  <FormField label="Pain Point">
                     <Textarea
                       value={js.painPoints}
                       onChange={({ detail }) => {
                         updateJourneyStage(js.id, "painPoints", detail.value);
                         setIsReviewing(false);
                       }}
-                      placeholder="불편하거나 개선이 필요한 부분"
+                      placeholder="Discomforts or areas for improvement"
                       rows={2}
                     />
                   </FormField>
@@ -465,26 +470,30 @@ export default function CustomerExperienceMap() {
         </Container>
 
         {showReview && (
-          <Container header={<Header variant="h2">고객 경험 맵 검토</Header>}>
+          <Container
+            header={
+              <Header variant="h2">Customer Experience Map Review</Header>
+            }
+          >
             <SpaceBetween size="m">
               <ColumnLayout columns={2} variant="text-grid">
                 <div>
-                  <Box variant="awsui-key-label">페르소나</Box>
+                  <Box variant="awsui-key-label">Persona</Box>
                   <Box>{persona}</Box>
                 </div>
                 <div>
-                  <Box variant="awsui-key-label">시나리오</Box>
+                  <Box variant="awsui-key-label">Scenario</Box>
                   <Box>{scenario}</Box>
                 </div>
               </ColumnLayout>
 
-              <Box variant="h4">고객 여정</Box>
+              <Box variant="h4">Customer Journey</Box>
               {journeyStages
                 .filter((js) => js.stage)
                 .map((js, index) => (
                   <Box key={js.id} padding={{ vertical: "xs" }}>
                     <Box variant="awsui-key-label">
-                      단계 {index + 1}: {js.stage}
+                      Stage {index + 1}: {js.stage}
                     </Box>
                     <Grid
                       gridDefinition={[
@@ -495,20 +504,20 @@ export default function CustomerExperienceMap() {
                       ]}
                     >
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">감정</Box>
+                        <Box color="text-body-secondary">Emotion</Box>
                         {emotionOptions.find((opt) => opt.value === js.emotions)
                           ?.label || "-"}
                       </Box>
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">행동</Box>
+                        <Box color="text-body-secondary">Action</Box>
                         {js.actions || "-"}
                       </Box>
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">터치포인트</Box>
+                        <Box color="text-body-secondary">Touchpoint</Box>
                         {js.touchpoints || "-"}
                       </Box>
                       <Box fontSize="body-s">
-                        <Box color="text-body-secondary">페인포인트</Box>
+                        <Box color="text-body-secondary">Pain Point</Box>
                         {js.painPoints || "-"}
                       </Box>
                     </Grid>
@@ -520,7 +529,7 @@ export default function CustomerExperienceMap() {
 
         <SpaceBetween direction="horizontal" size="xs">
           <Button onClick={handleReview} iconAlign="right" iconName="search">
-            검토
+            Review
           </Button>
           <Button
             variant="primary"
@@ -528,7 +537,7 @@ export default function CustomerExperienceMap() {
             iconAlign="right"
             iconName="arrow-right"
           >
-            다음
+            Next
           </Button>
         </SpaceBetween>
       </SpaceBetween>

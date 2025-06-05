@@ -47,22 +47,22 @@ type LayerType = {
 
 const layerTypes: Record<ServiceLayer["type"], LayerType> = {
   "physical-evidence": {
-    name: "물리적 증거",
+    name: "Physical Evidence",
     icon: "view-full",
     color: "blue",
   },
   "customer-actions": {
-    name: "고객 행동",
+    name: "Customer Actions",
     icon: "user-profile",
     color: "green",
   },
   frontstage: {
-    name: "프론트스테이지",
+    name: "Frontstage",
     icon: "contact",
     color: "severity-neutral",
   },
-  backstage: { name: "백스테이지", icon: "settings", color: "grey" },
-  support: { name: "지원 프로세스", icon: "status-positive", color: "red" },
+  backstage: { name: "Backstage", icon: "settings", color: "grey" },
+  support: { name: "Support Process", icon: "status-positive", color: "red" },
 };
 
 export default function ServiceBlueprint() {
@@ -91,14 +91,14 @@ export default function ServiceBlueprint() {
         layers.some((l) => l.elements.length > 0)
       ) {
         setSplitPanel({
-          header: "AI 검토 의견",
+          header: "AI Review Feedback",
           children: (
             <SpaceBetween size="m">
-              <Alert type="info" header="서비스 블루프린트 분석 완료">
-                작성하신 서비스 블루프린트를 분석했습니다.
+              <Alert type="info" header="Service Blueprint Analysis Completed">
+                We have analyzed the service blueprint you created.
               </Alert>
 
-              <Box variant="h4">서비스 구조 분석</Box>
+              <Box variant="h4">Service Structure Analysis</Box>
               <SpaceBetween size="xs">
                 {layers.map((layer) => (
                   <Box key={layer.id}>
@@ -107,7 +107,7 @@ export default function ServiceBlueprint() {
                     </Badge>{" "}
                     {layer.elements.length > 0 ? (
                       <StatusIndicator type="success">
-                        {layer.elements.length}개 요소
+                        {layer.elements.length} elements
                       </StatusIndicator>
                     ) : (
                       <Box
@@ -115,49 +115,53 @@ export default function ServiceBlueprint() {
                         color="text-status-error"
                         fontWeight="bold"
                       >
-                        요소 없음
+                        No elements
                       </Box>
                     )}
                   </Box>
                 ))}
               </SpaceBetween>
 
-              <Box variant="h4">개선 포인트</Box>
+              <Box variant="h4">Improvement Points</Box>
               <Box variant="p">
                 <Box variant="span" color="text-status-error" fontWeight="bold">
-                  가시선(Line of Visibility)과 상호작용선(Line of Interaction)을
-                  명확히 구분하여 각 레이어 간 관계를 더 명확히 하세요.
+                  Please clearly distinguish between the Line of Visibility and
+                  the Line of Interaction to make the relationships between
+                  layers clearer.
                 </Box>
               </Box>
 
-              <Box variant="h4">추천 사항</Box>
+              <Box variant="h4">Recommendations</Box>
               <SpaceBetween size="xs">
-                <Box>• 각 터치포인트별 소요 시간 추가</Box>
-                <Box>• 실패 지점(Fail Points) 식별 및 대응 방안 수립</Box>
-                <Box>• 고객 만족도에 영향을 미치는 핵심 순간 표시</Box>
+                <Box>• Add time required for each touchpoint</Box>
+                <Box>
+                  • Identify and develop countermeasures for Fail Points
+                </Box>
+                <Box>• Mark key moments that affect customer satisfaction</Box>
               </SpaceBetween>
             </SpaceBetween>
           ),
         });
       } else {
         setSplitPanel({
-          header: "서비스 블루프린트 작성 가이드",
+          header: "Service Blueprint Guide",
           children: (
             <SpaceBetween size="m">
-              <Box variant="h4">서비스 블루프린트란?</Box>
+              <Box variant="h4">What is a Service Blueprint?</Box>
               <Box variant="p">
-                서비스의 전체 프로세스를 시각화하여 고객 경험과 내부 운영을
-                연결합니다.
+                Visualize the entire service process to connect customer
+                experience and internal operations.
               </Box>
-              <Box variant="h4">주요 레이어</Box>
+              <Box variant="h4">Key Layers</Box>
               <Box variant="p">
-                • 물리적 증거: 고객이 보고 만지는 것<br />
-                • 고객 행동: 고객이 하는 활동
+                • Physical Evidence: What the customer sees and touches
                 <br />
-                • 프론트스테이지: 고객이 보는 직원 활동
+                • Customer Actions: Activities performed by the customer
                 <br />
-                • 백스테이지: 고객이 보지 못하는 직원 활동
-                <br />• 지원 프로세스: 서비스를 가능하게 하는 시스템
+                • Frontstage: Employee activities visible to the customer
+                <br />
+                • Backstage: Employee activities not visible to the customer
+                <br />• Support Process: Systems that enable the service
               </Box>
             </SpaceBetween>
           ),
@@ -176,16 +180,16 @@ export default function ServiceBlueprint() {
       children: (
         <SpaceBetween size="m">
           <Box variant="p">
-            서비스의 모든 구성 요소와 프로세스를 체계적으로 매핑하세요.
+            Map all components and processes of the service systematically.
           </Box>
-          <Box variant="h4">작성 팁</Box>
+          <Box variant="h4">Writing Tips</Box>
           <Box variant="p">
-            • 시간 순서대로 왼쪽에서 오른쪽으로 작성
+            • Write from left to right in chronological order
             <br />
-            • 각 레이어는 가시선으로 구분
+            • Each layer is separated by the Line of Visibility
             <br />
-            • 상호작용 포인트를 명확히 표시
-            <br />• 백스테이지와 지원 프로세스 연결 표시
+            • Clearly mark interaction points
+            <br />• Show connections between Backstage and Support Process
           </Box>
         </SpaceBetween>
       ),
@@ -233,16 +237,16 @@ export default function ServiceBlueprint() {
     const newErrors: Record<string, string> = {};
 
     if (!serviceName.trim()) {
-      newErrors.serviceName = "서비스명을 입력해주세요.";
+      newErrors.serviceName = "Please enter the service name.";
     }
 
     if (!serviceDescription.trim()) {
-      newErrors.serviceDescription = "서비스 설명을 입력해주세요.";
+      newErrors.serviceDescription = "Please enter the service description.";
     }
 
     const hasNoElements = layers.every((layer) => layer.elements.length === 0);
     if (hasNoElements) {
-      newErrors.layers = "최소 하나 이상의 레이어에 요소를 추가해주세요.";
+      newErrors.layers = "Please add elements to at least one layer.";
     }
 
     setErrors(newErrors);
@@ -267,7 +271,7 @@ export default function ServiceBlueprint() {
       header={
         <Header
           variant="h1"
-          description="서비스의 전체 프로세스를 시각화하고 개선 기회를 찾습니다"
+          description="Visualize the entire service process and find improvement opportunities"
         >
           Service Blueprint
         </Header>
@@ -282,9 +286,10 @@ export default function ServiceBlueprint() {
               setShowReview(false);
               setIsReviewing(false);
             }}
-            header="검토 완료"
+            header="Review Completed"
           >
-            서비스 블루프린트가 작성되었습니다. 다음 단계로 진행할 수 있습니다.
+            Service blueprint has been created. You can proceed to the next
+            step.
           </Alert>
         )}
 
@@ -292,14 +297,18 @@ export default function ServiceBlueprint() {
           header={
             <Header
               variant="h2"
-              description="분석할 서비스의 기본 정보를 입력하세요"
+              description="Enter the basic information of the service to analyze"
             >
-              서비스 정보
+              Service Information
             </Header>
           }
         >
           <SpaceBetween size="l">
-            <FormField label="서비스명" errorText={errors.serviceName} stretch>
+            <FormField
+              label="Service Name"
+              errorText={errors.serviceName}
+              stretch
+            >
               <Input
                 value={serviceName}
                 onChange={({ detail }) => {
@@ -307,13 +316,13 @@ export default function ServiceBlueprint() {
                   setErrors({ ...errors, serviceName: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 온라인 제품 주문 서비스"
+                placeholder="e.g., Online Product Ordering Service"
               />
             </FormField>
 
             <FormField
-              label="서비스 설명"
-              description="서비스의 목적과 주요 기능을 설명하세요"
+              label="Service Description"
+              description="Describe the purpose and main features of the service."
               errorText={errors.serviceDescription}
               stretch
             >
@@ -324,7 +333,7 @@ export default function ServiceBlueprint() {
                   setErrors({ ...errors, serviceDescription: "" });
                   setIsReviewing(false);
                 }}
-                placeholder="예: 고객이 온라인으로 제품을 검색, 선택, 주문하고 배송받는 전체 프로세스"
+                placeholder="e.g., The entire process where customers search, select, order, and receive products online."
                 rows={3}
               />
             </FormField>
@@ -333,16 +342,13 @@ export default function ServiceBlueprint() {
 
         <Container
           header={
-            <Header
-              variant="h2"
-              description="각 레이어별 구성 요소를 추가하세요"
-            >
-              서비스 레이어
+            <Header variant="h2" description="Add elements to each layer">
+              Service Layer
             </Header>
           }
         >
           {errors.layers && (
-            <Alert type="error" header="오류">
+            <Alert type="error" header="Error">
               {errors.layers}
             </Alert>
           )}
@@ -359,7 +365,7 @@ export default function ServiceBlueprint() {
                 {
                   content: (item) => (
                     <SpaceBetween size="s">
-                      <FormField label="요소 추가">
+                      <FormField label="Add Element">
                         <SpaceBetween size="xs" direction="horizontal">
                           <Input
                             value={inputValues[item.id] || ""}
@@ -371,7 +377,7 @@ export default function ServiceBlueprint() {
                             }}
                             placeholder={`${
                               layerTypes[item.type].name
-                            } 요소 입력`}
+                            } element input`}
                             onKeyDown={(e) => {
                               if (e.detail.key === "Enter") {
                                 addElement(item.id, inputValues[item.id] || "");
@@ -404,7 +410,7 @@ export default function ServiceBlueprint() {
                                   iconName="close"
                                   variant="icon"
                                   onClick={() => removeElement(item.id, index)}
-                                  ariaLabel={`${element} 삭제`}
+                                  ariaLabel={`${element} remove`}
                                 />
                               </SpaceBetween>
                             </Box>
@@ -425,21 +431,21 @@ export default function ServiceBlueprint() {
 
         {showReview && (
           <Container
-            header={<Header variant="h2">서비스 블루프린트 검토</Header>}
+            header={<Header variant="h2">Service Blueprint Review</Header>}
           >
             <SpaceBetween size="m">
               <ColumnLayout columns={2} variant="text-grid">
                 <div>
-                  <Box variant="awsui-key-label">서비스명</Box>
+                  <Box variant="awsui-key-label">Service Name</Box>
                   <Box>{serviceName}</Box>
                 </div>
                 <div>
-                  <Box variant="awsui-key-label">서비스 설명</Box>
+                  <Box variant="awsui-key-label">Service Description</Box>
                   <Box>{serviceDescription}</Box>
                 </div>
               </ColumnLayout>
 
-              <Box variant="h4">서비스 레이어</Box>
+              <Box variant="h4">Service Layer</Box>
               <SpaceBetween size="s">
                 {layers
                   .filter((layer) => layer.elements.length > 0)
@@ -468,7 +474,7 @@ export default function ServiceBlueprint() {
 
         <SpaceBetween direction="horizontal" size="xs">
           <Button onClick={handleReview} iconAlign="right" iconName="search">
-            검토
+            Review
           </Button>
           <Button
             variant="primary"
@@ -476,7 +482,7 @@ export default function ServiceBlueprint() {
             iconAlign="right"
             iconName="arrow-right"
           >
-            다음
+            Next
           </Button>
         </SpaceBetween>
       </SpaceBetween>
