@@ -63,7 +63,7 @@ export default function BusinessGoalAlignment() {
                 <Box variant="span" color="text-status-error" fontWeight="bold">
                   {" "}
                   However, it would be better if we could further concretize the
-                  customer's scale or industry.
+                  customer&apos;s scale or industry.
                 </Box>
               </Box>
 
