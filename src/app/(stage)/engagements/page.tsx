@@ -259,6 +259,17 @@ export default function EngagementsPage() {
     }
   }, [selectedRow, setSplitPanel, setSplitPanelOpen]);
 
+  // Table의 onSelectionChange 핸들러 추가
+  const handleTableSelectionChange = (e: { detail: { selectedItems: Engagement[] } }) => {
+    const selected = e.detail.selectedItems;
+    setSelectedItems(selected);
+    if (selected.length > 0) {
+      setSelectedRow(selected[0]);
+    } else {
+      setSelectedRow(null);
+    }
+  };
+
   // 랜덤 네비게이션 메뉴로 이동하는 함수
   const moveToRandomNavigation = () => {
     const navigationItems = [
@@ -433,11 +444,9 @@ export default function EngagementsPage() {
               items={paginatedItems}
               loading={false}
               loadingText="데이터 로드 중"
-              selectionType="multi"
+              selectionType="single"
               selectedItems={selectedItems}
-              onSelectionChange={(e) =>
-                setSelectedItems(e.detail.selectedItems)
-              }
+              onSelectionChange={handleTableSelectionChange}
               variant="full-page"
               stickyHeader={true}
               header={
